@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:appair/entities/user.dart';
 import 'package:appair/repository/auth_repository.dart';
 import 'package:appair/repository/info_repository.dart';
+import 'package:appair/repository/transaksi_repository.dart';
 import 'package:appair/repository/user_repository.dart';
-import 'package:appair/screens/home/widget/home_page.dart';
+import 'package:appair/screens/home/home_page.dart';
+import 'package:appair/screens/list_transaksi/list_transaksi_page.dart';
 import 'package:appair/screens/login_page.dart';
+import 'package:appair/screens/profile/profile_page.dart';
 import 'package:appair/screens/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -46,6 +49,11 @@ Future<void> initServices() async {
     baseUrl: env['baseUrl'],
   ));
 
+  Get.put(TransaksiRepository(
+    baseUrl: env['baseUrl'],
+    userToken: userToken,
+  ));
+
   Get.put(HomeController());
 }
 
@@ -65,7 +73,9 @@ class MyApp extends StatelessWidget {
       ),
       getPages: [
         GetPage(name: "/login", page: () => const LoginPage()),
-        GetPage(name: "/home", page: () => HomePage()),
+        GetPage(name: "/home", page: () => const HomePage()),
+        GetPage(name: "/profile", page: () => const ProfilePage(), transition: Transition.rightToLeft),
+        GetPage(name: "/list/transaksi", page: () => const ListTransaksiPage(), transition: Transition.rightToLeft),
       ],
     );
   }

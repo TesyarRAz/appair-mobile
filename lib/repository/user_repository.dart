@@ -1,5 +1,6 @@
 import 'package:appair/entities/user.dart';
 import 'package:appair/repository/repository.dart';
+import 'package:flutter/material.dart';
 
 class UserRepository extends AuthorizedRepository {
   UserRepository({required super.baseUrl, required super.userToken});

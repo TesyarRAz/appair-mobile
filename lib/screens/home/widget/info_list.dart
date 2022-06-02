@@ -1,19 +1,18 @@
-import 'package:appair/screens/home/widget/home_page.dart';
+import 'package:appair/screens/home/home_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class InfoList extends StatelessWidget {
-  final HomeData homeData;
-
-  const InfoList({Key? key, required this.homeData}) : super(key: key);
+class InfoList extends GetView<HomeController> {
+  const InfoList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: homeData.listInfoResponse.data.length,
+      itemCount: controller.state?.listInfoResponse.data.length,
       itemBuilder: (context, index) {
-        var info = homeData.listInfoResponse.data[index];
+        var info = controller.state?.listInfoResponse.data[index];
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -22,19 +21,19 @@ class InfoList extends StatelessWidget {
               borderRadius: BorderRadius.circular(0),
             ),
             elevation: 1,
-            child: InkWell(
+            child: GestureDetector(
               onTap: () {},
               child: Column(
                 children: [
                   CachedNetworkImage(
-                          imageUrl: info.image ?? 'http://localhost:8000/empty-image.png',
+                          imageUrl: info?.image ?? 'http://localhost:8000/empty-image.png',
                           imageBuilder: (_, imageProvider) =>
                               imageBuilder(imageProvider),
                         ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      info.title,
+                      info?.title ?? '',
                     ),
                   )
                 ],
