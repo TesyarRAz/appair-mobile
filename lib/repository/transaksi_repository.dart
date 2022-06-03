@@ -1,29 +1,27 @@
+import 'package:appair/entities/pagination.dart';
 import 'package:appair/entities/transaksi.dart';
 import 'package:appair/repository/repository.dart';
-import 'package:flutter/material.dart';
-
-class TransaksiNowResponse {
-  Transaksi? data;
-
-  TransaksiNowResponse({
-    this.data,
-  });
-
-  factory TransaksiNowResponse.fromJson(Map<String, dynamic> json) => TransaksiNowResponse(
-    data: json['data'] != null ? Transaksi.fromJson(json["data"]) : null,
-  );
-}
 
 class TransaksiRepository extends AuthorizedRepository {
-  TransaksiRepository({required super.baseUrl, required super.userToken});
+  TransaksiRepository({required super.baseUrl, required super.authToken});
 
-  Future<TransaksiNowResponse> transaksiNow() async {
-    var response = await get("/user/transaksi?type=check_now");
+  Future<Map<String, dynamic>> transaksiActive() async {
+    var response = await get('/transaksi?type=active').catchError((error) => throw error);
 
     if (response.statusCode == 200) {
-      return TransaksiNowResponse.fromJson(response.body);
+      return response.body;
     }
 
-    return TransaksiNowResponse();
+    return {};
+  }
+
+  Future<Pagination<Map<String, dynamic>>?> history([String? cursor]) async {
+    var response = await get('/transaksi?cursor=$cursor').catchError((error) => throw error);
+
+    if (response.statusCode == 200) {
+      return Pagination.fromJson(response.body);
+    }
+
+    return null;
   }
 }

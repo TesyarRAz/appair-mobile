@@ -5,6 +5,7 @@ class Transaksi {
   String status;
 
   String? tanggalBayar;
+  String? tanggalTempo;
   int? totalHarga;
   int? totalBayar;
   String? keteranganDitolak;
@@ -15,6 +16,7 @@ class Transaksi {
     required this.buktiBayar,
     required this.status,
     required this.tanggalBayar,
+    required this.tanggalTempo,
     required this.totalHarga,
     required this.totalBayar,
     required this.keteranganDitolak,
@@ -26,6 +28,7 @@ class Transaksi {
         buktiBayar: json["bukti_bayar"],
         status: json["status"],
         tanggalBayar: json["tanggal_bayar"],
+        tanggalTempo: json["tanggal_tempo"],
         totalHarga: json["total_harga"],
         totalBayar: json["total_bayar"],
         keteranganDitolak: json["keterangan_ditolak"],

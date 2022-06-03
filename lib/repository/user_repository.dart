@@ -1,17 +1,15 @@
-import 'package:appair/entities/user.dart';
 import 'package:appair/repository/repository.dart';
-import 'package:flutter/material.dart';
 
 class UserRepository extends AuthorizedRepository {
-  UserRepository({required super.baseUrl, required super.userToken});
+  UserRepository({required super.baseUrl, required super.authToken});
 
-  Future<User?> userInfo() async {
-    var response = await get("/user");
+  Future<Map<String, dynamic>> user() async {
+    var response = await get("/user").catchError((error) => throw error);
 
     if (response.statusCode == 200) {
-      return User.fromJson(response.body);
+      return response.body;
     }
 
-    return null;
+    return {};
   }
 }

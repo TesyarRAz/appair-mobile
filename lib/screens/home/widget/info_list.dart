@@ -17,10 +17,7 @@ class InfoList extends GetView<HomeController> {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(0),
-            ),
-            elevation: 1,
+            elevation: 5,
             child: GestureDetector(
               onTap: () {},
               child: Column(
@@ -34,6 +31,10 @@ class InfoList extends GetView<HomeController> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       info?.title ?? '',
+                      style: TextStyle(
+                        fontFamily: 'Ubuntu',
+                        fontSize: 14,
+                      ),
                     ),
                   )
                 ],

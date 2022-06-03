@@ -5,11 +5,15 @@ import 'package:appair/repository/auth_repository.dart';
 import 'package:appair/repository/info_repository.dart';
 import 'package:appair/repository/transaksi_repository.dart';
 import 'package:appair/repository/user_repository.dart';
+import 'package:appair/screens/bayar_page.dart';
 import 'package:appair/screens/home/home_page.dart';
-import 'package:appair/screens/list_transaksi/list_transaksi_page.dart';
 import 'package:appair/screens/login_page.dart';
 import 'package:appair/screens/profile/profile_page.dart';
 import 'package:appair/screens/splash_page.dart';
+import 'package:appair/service/auth_service.dart';
+import 'package:appair/service/info_service.dart';
+import 'package:appair/service/transaksi_service.dart';
+import 'package:appair/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -32,29 +36,50 @@ Future<void> initServices() async {
 
   Get.put(await PackageInfo.fromPlatform());
 
-  var prefs = Get.put(await SharedPreferences.getInstance());
+  var preferences = Get.put(await SharedPreferences.getInstance());
 
-  var userToken = Get.put(UserToken(token: prefs.getString("userToken")));
-
-  Get.put(AuthRepository(
-    baseUrl: env['baseUrl'],
+  var authService = Get.put(AuthService(
+    repository: AuthRepository(
+      baseUrl: env['baseUrl'],
+    ),
+    preferences: preferences,
   ));
 
-  Get.put(UserRepository(
+  var authToken = Get.put(AuthToken(token: authService.getLoginToken()));
+
+  var transaksiRepository = Get.put(
+    TransaksiRepository(
+      baseUrl: env['baseUrl'],
+      authToken: authToken,
+    ),
+  );
+
+  var infoRepository = Get.put(
+    InfoRepository(
+      baseUrl: env['baseUrl'],
+    ),
+  );
+
+  var userRepository = Get.put(UserRepository(
     baseUrl: env['baseUrl'],
-    userToken: userToken,
+    authToken: authToken,
   ));
 
-  Get.put(InfoRepository(
-    baseUrl: env['baseUrl'],
+  Get.put(TransaksiService(
+    repository: transaksiRepository,
   ));
 
-  Get.put(TransaksiRepository(
-    baseUrl: env['baseUrl'],
-    userToken: userToken,
+  Get.put(InfoService(
+    repository: infoRepository,
   ));
 
+  Get.put(UserService(
+    repository: userRepository,
+  ));
+
+  Get.put(SplashController());
   Get.put(HomeController());
+  Get.put(ProfileController());
 }
 
 class MyApp extends StatelessWidget {
@@ -64,18 +89,42 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SplashPage(),
       theme: ThemeData(
-        useMaterial3: true,
-        primaryColor: Colors.blue,
         primarySwatch: Colors.blue,
-        cardColor: Colors.white,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          titleTextStyle: TextStyle(
+            color: Colors.black87,
+            fontSize: 23,
+            fontFamily: "Ubuntu",
+          ),
+          actionsIconTheme: IconThemeData(
+            color: Colors.black87,
+          ),
+          foregroundColor: Colors.black
+        ),
       ),
+      home: const SplashPage(),
       getPages: [
-        GetPage(name: "/login", page: () => const LoginPage()),
-        GetPage(name: "/home", page: () => const HomePage()),
-        GetPage(name: "/profile", page: () => const ProfilePage(), transition: Transition.rightToLeft),
-        GetPage(name: "/list/transaksi", page: () => const ListTransaksiPage(), transition: Transition.rightToLeft),
+        GetPage(
+          name: "/login",
+          page: () => const LoginPage(),
+        ),
+        GetPage(
+          name: "/home",
+          page: () => const HomePage(),
+        ),
+        GetPage(
+          name: "/profile",
+          page: () => ProfilePage(),
+          transition: Transition.rightToLeft,
+        ),
+        GetPage(
+          name: "/bayar",
+          page: () => const BayarPage(),
+          transition: Transition.rightToLeft,
+        ),
       ],
     );
   }

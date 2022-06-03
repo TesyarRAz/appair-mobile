@@ -1,5 +1,7 @@
 import 'package:appair/entities/user.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/request/request.dart';
 
 class Repository extends GetConnect {
   Repository({
@@ -10,7 +12,7 @@ class Repository extends GetConnect {
 
   @override
   void onInit() {
-    httpClient.addRequestModifier<dynamic>((request) async {
+    httpClient.addRequestModifier((Request request) async {
       request.headers['Accept'] = 'application/json';
 
       return request;
@@ -19,16 +21,16 @@ class Repository extends GetConnect {
 }
 
 class AuthorizedRepository extends Repository {
-  final UserToken userToken;
+  final AuthToken authToken;
 
-  AuthorizedRepository({required super.baseUrl, required this.userToken});
+  AuthorizedRepository({required super.baseUrl, required this.authToken});
 
   @override
   void onInit() {
     super.onInit();
 
-    httpClient.addAuthenticator<dynamic>((request) async {
-      request.headers['Authorization'] = "Bearer ${userToken.token}";
+    httpClient.addAuthenticator((Request request) async {
+      request.headers['Authorization'] = "Bearer ${authToken.token}";
 
       return request;
     });

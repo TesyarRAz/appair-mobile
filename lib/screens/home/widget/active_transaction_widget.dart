@@ -10,11 +10,11 @@ class ActiveTransactionWidget extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    var transaksiNowResponse = controller.state?.transaksiNowResponse;
+    var transaksiActiveResponse = controller.state?.transaksiActiveResponse;
 
     return GestureDetector(
       onTap: () {
-        Get.toNamed("/list/transaksi");
+        Get.toNamed("/bayar");
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -24,24 +24,48 @@ class ActiveTransactionWidget extends GetView<HomeController> {
             color: Colors.white,
             elevation: 10,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(12.0),
               child: Column(
                 children: [
                   Row(
                     children: [
-                      Text("Tagihan"),
-                      Spacer(),
+                      const Text(
+                        "Tagihan",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontFamily: 'Ubuntu',
+                        ),
+                      ),
+                      const Spacer(),
                       Chip(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                         backgroundColor: Colors.red,
+                        labelStyle: const TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Ubuntu',
+                        ),
                         label: Text(
-                          transaksiNowResponse?.data?.statusText ?? "Belum Bayar",
+                          transaksiActiveResponse?.data?.statusText ??
+                              "Belum Bayar",
                         ),
                       ),
                     ],
                   ),
+                  Divider(
+                    endIndent: 200,
+                  ),
+                  Spacer(),
                   Row(
                     children: [
-                      Text("Rp. ${transaksiNowResponse?.data?.totalHarga ?? 0}")
+                      Text(
+                        "Tempo: ${transaksiActiveResponse?.data?.tanggalTempo ?? "-" }",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'Ubuntu',
+                        ),
+                      )
                     ],
                   )
                 ],

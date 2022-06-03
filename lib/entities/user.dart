@@ -28,14 +28,14 @@ class User {
   };
 }
 
-class UserToken {
+class AuthToken {
   String? token;
 
-  UserToken({
+  AuthToken({
     this.token,
   });
 
-  factory UserToken.fromJson(Map<String, dynamic> json) => UserToken(
+  factory AuthToken.fromJson(Map<String, dynamic> json) => AuthToken(
     token: json["token"],
   );
 }

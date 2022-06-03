@@ -1,8 +1,7 @@
 import 'package:appair/repository/auth_repository.dart';
+import 'package:appair/service/auth_service.dart';
 import 'package:appair/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,44 +18,106 @@ class _LoginPageState extends State<LoginPage> {
   final _txtUsername = TextEditingController();
   final _txtPassword = TextEditingController();
 
+  final _authService = Get.find<AuthService>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
-        key: _loginFormKey,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: _txtUsername,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Username or Email',
-                ),
+      body: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          SizedBox.fromSize(
+            size: Size.fromHeight(MediaQuery.of(context).size.height / 2.3),
+            child: const DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.blue,
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                controller: _txtPassword,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ElevatedButton(
-                onPressed: _login,
-                child: const Text('Login'),
-              ),
-            ],
+            ),
           ),
-        ),
+          Positioned(
+            top: 40,
+            left: MediaQuery.of(context).size.width / 2 - 50,
+            child: Column(
+              children: const [
+                Icon(
+                  Icons.water,
+                  size: 100,
+                  color: Colors.white,
+                ),
+                Text(
+                  "AppAir",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontFamily: 'Ubuntu',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: Form(
+                key: _loginFormKey,
+                child: SizedBox(
+                  height: 300,
+                  width: 400,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                        horizontal: 20,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextFormField(
+                            controller: _txtUsername,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Username or Email',
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            controller: _txtPassword,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Password',
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.blue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              minimumSize: const Size.fromHeight(50),
+                            ),
+                            onPressed: _login,
+                            child: const Text('Login'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -66,29 +127,32 @@ class _LoginPageState extends State<LoginPage> {
       var username = _txtUsername.text;
       var password = _txtPassword.text;
 
-      var auth = Get.find<AuthRepository>();
-
       Get.showOverlay(
-        asyncFunction: () => auth.login(username, password),
-        loadingWidget: const SimpleDialog(
-          children: [
-            LoadingWidget(),
-          ],
+        asyncFunction: () => _authService.login(username, password),
+        loadingWidget: Center(
+          child: Container(
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: LoadingWidget(),
+            ),
+          ),
         ),
       ).then((value) {
         if (value.isLoggedIn) {
-          var prefs = Get.find<SharedPreferences>();
-
-          prefs.setString("userToken", value.userToken!.token!);
+          _authService.setLoginToken(value.authToken!);
 
           Get.offAllNamed('/home');
         } else {
-          Get.snackbar(
-            'Login',
-            "Username atau password salah",
-            icon: const Icon(Icons.error),
-            backgroundColor: Colors.red,
-          );
+          Get.showSnackbar(const GetSnackBar(
+            message: "Username atau password salah",
+            duration: Duration(seconds: 2),
+          ));
         }
       });
     }
