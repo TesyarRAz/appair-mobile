@@ -47,19 +47,27 @@ class HomePage extends GetView<HomeController> {
           ),
           RefreshIndicator(
             onRefresh: controller.load,
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  const ActiveTransactionWidget(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  _buildInfoList()
-                ],
+            child: ScrollConfiguration(
+              behavior: ScrollConfiguration.of(context).copyWith(
+                dragDevices: {
+                  PointerDeviceKind.touch,
+                  PointerDeviceKind.mouse,
+                },
+              ),
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    const ActiveTransactionWidget(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    _buildInfoList()
+                  ],
+                ),
               ),
             ),
           ),
