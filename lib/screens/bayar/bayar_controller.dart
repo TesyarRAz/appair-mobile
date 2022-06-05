@@ -13,6 +13,7 @@ class BayarController extends GetxController with StateMixin<BayarData> {
   final settingService = Get.find<SettingService>();
   final transaksiService = Get.find<TransaksiService>();
 
+  final kuantitas = 0.obs;
   final totalHarga = 0.obs;
 
   final jumlahKubikController = TextEditingController();
@@ -24,7 +25,8 @@ class BayarController extends GetxController with StateMixin<BayarData> {
     super.onInit();
 
     jumlahKubikController.addListener(() {
-      totalHarga.value = (int.tryParse(jumlahKubikController.text) ?? 0) *
+      kuantitas.value = int.tryParse(jumlahKubikController.text) ?? 0;
+      totalHarga.value = kuantitas.value *
           (setting.value.price?.perKubik ?? 0);
     });
 
@@ -100,7 +102,7 @@ class BayarController extends GetxController with StateMixin<BayarData> {
           if (fileBytes != null) {
             return await transaksiService
                 .bayar(
-                    fileBytes, totalHarga.value, state!.fileName ?? 'image.jpg')
+                    fileBytes, kuantitas.value, state!.fileName ?? 'image.jpg')
                 .catchError((error) => throw error);
           }
 
