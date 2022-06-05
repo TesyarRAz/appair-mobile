@@ -1,23 +1,27 @@
 import 'dart:convert';
 
-import 'package:appair/entities/user.dart';
 import 'package:appair/repository/auth_repository.dart';
 import 'package:appair/repository/info_repository.dart';
+import 'package:appair/repository/setting_repository.dart';
 import 'package:appair/repository/transaksi_repository.dart';
 import 'package:appair/repository/user_repository.dart';
-import 'package:appair/screens/bayar_page.dart';
+import 'package:appair/screens/bayar/bayar_controller.dart';
+import 'package:appair/screens/bayar/bayar_page.dart';
+import 'package:appair/screens/home/home_controller.dart';
 import 'package:appair/screens/home/home_page.dart';
 import 'package:appair/screens/login_page.dart';
 import 'package:appair/screens/profile/profile_page.dart';
 import 'package:appair/screens/splash_page.dart';
 import 'package:appair/service/auth_service.dart';
 import 'package:appair/service/info_service.dart';
+import 'package:appair/service/setting_service.dart';
 import 'package:appair/service/transaksi_service.dart';
 import 'package:appair/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:platform_info/platform_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -38,19 +42,10 @@ Future<void> initServices() async {
 
   var preferences = Get.put(await SharedPreferences.getInstance());
 
-  var authService = Get.put(AuthService(
-    repository: AuthRepository(
-      baseUrl: env['baseUrl'],
-    ),
-    preferences: preferences,
-  ));
-
-  var authToken = Get.put(AuthToken(token: authService.getLoginToken()));
-
+  // Initialize Repository First
   var transaksiRepository = Get.put(
     TransaksiRepository(
       baseUrl: env['baseUrl'],
-      authToken: authToken,
     ),
   );
 
@@ -60,26 +55,61 @@ Future<void> initServices() async {
     ),
   );
 
-  var userRepository = Get.put(UserRepository(
-    baseUrl: env['baseUrl'],
-    authToken: authToken,
-  ));
+  var userRepository = Get.put(
+    UserRepository(
+      baseUrl: env['baseUrl'],
+    ),
+  );
 
-  Get.put(TransaksiService(
-    repository: transaksiRepository,
-  ));
+  var authRepository = Get.put(
+    AuthRepository(
+      baseUrl: env['baseUrl'],
+    ),
+  );
 
-  Get.put(InfoService(
-    repository: infoRepository,
-  ));
+  var settingRepository = Get.put(
+    SettingRepository(
+      baseUrl: env['baseUrl'],
+    ),
+  );
 
-  Get.put(UserService(
-    repository: userRepository,
-  ));
+  // Initialize Service
+  Get.put(
+    AuthService(
+      repository: authRepository,
+      userRepository: userRepository,
+      preferences: preferences,
+    ), 
+  );
 
-  Get.put(SplashController());
-  Get.put(HomeController());
-  Get.put(ProfileController());
+  Get.put(
+    TransaksiService(
+      repository: transaksiRepository,
+    ),
+  );
+
+  Get.put(
+    InfoService(
+      repository: infoRepository,
+    ),
+  );
+
+  Get.put(
+    UserService(
+      repository: userRepository,
+    ),
+  );
+
+  Get.put(
+    SettingService(
+      repository: settingRepository,
+    ),
+  );
+
+  Get.lazyPut(() => SplashController(), fenix: true);
+  Get.lazyPut(() => HomeController(), fenix: true);
+  Get.lazyPut(() => ProfileController(), fenix: true);
+  Get.lazyPut(() => BayarController(), fenix: true);
 }
 
 class MyApp extends StatelessWidget {
@@ -88,6 +118,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      locale: const Locale('id', 'ID'),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -102,7 +133,7 @@ class MyApp extends StatelessWidget {
           actionsIconTheme: IconThemeData(
             color: Colors.black87,
           ),
-          foregroundColor: Colors.black
+          foregroundColor: Colors.black,
         ),
       ),
       home: const SplashPage(),
@@ -122,7 +153,7 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: "/bayar",
-          page: () => const BayarPage(),
+          page: () => BayarPage(),
           transition: Transition.rightToLeft,
         ),
       ],

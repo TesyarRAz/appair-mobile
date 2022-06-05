@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:appair/entities/pagination.dart';
 import 'package:appair/entities/transaksi.dart';
 import 'package:appair/repository/transaksi_repository.dart';
@@ -28,6 +30,12 @@ class TransaksiService extends GetxService {
 
     return Pagination();
   }
+
+  Future<TransaksiBayarResponse> bayar(List<int> file, int kubik, String filename) async {
+    var data = await repository.bayar(file, kubik, filename).catchError((error) => throw error);
+ 
+    return TransaksiBayarResponse.fromJson(data);
+  }
 }
 
 class TransaksiActiveResponse {
@@ -38,6 +46,21 @@ class TransaksiActiveResponse {
   });
 
   factory TransaksiActiveResponse.fromJson(Map<String, dynamic> json) => TransaksiActiveResponse(
+    data: json['data'] != null ? Transaksi.fromJson(json["data"]) : null,
+  );
+}
+
+class TransaksiBayarResponse {
+  bool success;
+  Transaksi? data;
+
+  TransaksiBayarResponse({
+    this.success = false,
+    this.data,
+  });
+
+  factory TransaksiBayarResponse.fromJson(Map<String, dynamic> json) => TransaksiBayarResponse(
+    success: json['status'] == 'success',
     data: json['data'] != null ? Transaksi.fromJson(json["data"]) : null,
   );
 }

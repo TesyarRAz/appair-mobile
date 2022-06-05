@@ -1,4 +1,5 @@
 import 'package:appair/entities/user.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
@@ -18,21 +19,37 @@ class Repository extends GetConnect {
       return request;
     });
   }
+
+  Dio dio() {
+    return Dio(BaseOptions(
+      baseUrl: baseUrl ?? '',
+      headers: {
+        'Accept': 'application/json',
+      },
+      responseType: ResponseType.json,
+    ));
+  }
 }
 
 class AuthorizedRepository extends Repository {
-  final AuthToken authToken;
-
-  AuthorizedRepository({required super.baseUrl, required this.authToken});
+  AuthorizedRepository({required super.baseUrl});
 
   @override
   void onInit() {
     super.onInit();
 
     httpClient.addAuthenticator((Request request) async {
+      var authToken = Get.find<AuthToken>();
+
       request.headers['Authorization'] = "Bearer ${authToken.token}";
 
       return request;
     });
+  }
+
+  @override
+  Dio dio() {
+    return super.dio()
+    ..options.headers['Authorization'] = "Bearer ${Get.find<AuthToken>().token}";
   }
 }

@@ -13,6 +13,7 @@ class SplashController extends GetxController
   final loadMinimal = const Duration(seconds: 5);
 
   late AnimationController animationController;
+  late Animation<double> iconAnimation;
 
   @override
   void onInit() {
@@ -21,6 +22,8 @@ class SplashController extends GetxController
     animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1))..repeat(reverse: true);
 
+    iconAnimation = Tween<double>(begin: 0.5, end: 1).animate(animationController);
+
     if (_authService.hasLoginToken()) {
       _load();
     } else {
@@ -28,6 +31,12 @@ class SplashController extends GetxController
         Get.offAndToNamed("/login");
       });
     }
+  }
+
+  @override
+  void onClose() {
+    animationController.dispose();
+    super.onClose();
   }
 
   void _load() {
@@ -71,17 +80,20 @@ class SplashPage extends GetView<SplashController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ScaleTransition(
-          scale: CurvedAnimation(
-            parent: controller.animationController,
-            curve: Curves.easeInOut,
-          ),
+        child: AnimatedBuilder(
+          animation: controller.iconAnimation,
+          builder: (context, child) {
+            return Transform.scale(
+              scale: controller.iconAnimation.value,
+              child: child,
+            );
+          },
           child: const Icon(
             Icons.water,
             size: 100,
             color: Colors.blue,
           ),
-        ),
+        )
       ),
     );
   }

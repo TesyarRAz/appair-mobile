@@ -1,7 +1,7 @@
 import 'package:appair/repository/repository.dart';
 
 class UserRepository extends AuthorizedRepository {
-  UserRepository({required super.baseUrl, required super.authToken});
+  UserRepository({required super.baseUrl});
 
   Future<Map<String, dynamic>> user() async {
     var response = await get("/user").catchError((error) => throw error);

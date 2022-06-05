@@ -1,79 +1,116 @@
-import 'package:appair/screens/home/home_page.dart';
+import 'package:appair/screens/home/home_controller.dart';
+import 'package:appair/service/transaksi_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
+import 'package:appair/util/number_util.dart';
 
 class ActiveTransactionWidget extends GetView<HomeController> {
   const ActiveTransactionWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var transaksiActiveResponse = controller.state?.transaksiActiveResponse;
+    return ObxValue<Rx<TransaksiActiveResponse>>(
+      (data) {
+        return InkWell(
+          onTap: () async {
+            if (!(data.value.data?.status == "lunas" || data.value.data?.status == "lewati")) {
+              await Get.toNamed("/bayar");
 
-    return GestureDetector(
-      onTap: () {
-        Get.toNamed("/bayar");
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SizedBox.fromSize(
-          size: const Size.fromHeight(150),
-          child: Card(
-            color: Colors.white,
-            elevation: 10,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                children: [
-                  Row(
+              controller.load();
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox.fromSize(
+              size: const Size.fromHeight(200),
+              child: Card(
+                color: Colors.white,
+                elevation: 10,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Tagihan",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontFamily: 'Ubuntu',
-                        ),
+                      Row(
+                        children: [
+                          const Text(
+                            "Tagihan",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontFamily: 'Ubuntu',
+                            ),
+                          ),
+                          const Spacer(),
+                          Chip(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            backgroundColor: data.value.data?.status == "lunas" ? Colors.green : Colors.red,
+                            labelStyle: const TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Ubuntu',
+                            ),
+                            label: Text(
+                              data.value.data?.statusText ?? "Belum Bayar",
+                            ),
+                          ),
+                        ],
                       ),
-                      const Spacer(),
-                      Chip(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        backgroundColor: Colors.red,
-                        labelStyle: const TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Ubuntu',
-                        ),
-                        label: Text(
-                          transaksiActiveResponse?.data?.statusText ??
-                              "Belum Bayar",
-                        ),
+                      const Divider(
+                        endIndent: 200,
                       ),
-                    ],
-                  ),
-                  Divider(
-                    endIndent: 200,
-                  ),
-                  Spacer(),
-                  Row(
-                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
-                        "Tempo: ${transaksiActiveResponse?.data?.tanggalTempo ?? "-" }",
-                        style: TextStyle(
+                        "Total Harga: ${data.value.data?.totalHarga?.numberFormat ?? '-'}",
+                        style: const TextStyle(
                           fontSize: 12,
                           fontFamily: 'Ubuntu',
                         ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Visibility(
+                        visible: data.value.data?.totalHarga != null,
+                        child: Text(
+                          "Total Bayar: ${data.value.data?.totalBayar?.numberFormat ?? '-'}",
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontFamily: 'Ubuntu',
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          Text(
+                            "Tanggal Tempo: ${data.value.data?.tanggalTempo ?? "-"}",
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'Ubuntu',
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            "Tanggal Bayar: ${data.value.data?.tanggalBayar ?? "-"}",
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'Ubuntu',
+                            ),
+                          ),
+                        ],
                       )
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
+      controller.transaksiActiveResponse,
     );
   }
 }

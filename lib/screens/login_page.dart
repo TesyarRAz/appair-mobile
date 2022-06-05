@@ -1,3 +1,4 @@
+import 'package:appair/entities/user.dart';
 import 'package:appair/repository/auth_repository.dart';
 import 'package:appair/service/auth_service.dart';
 import 'package:appair/widgets/loading_widget.dart';
@@ -23,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -35,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Positioned(
-            top: 40,
+            top: 80,
             left: MediaQuery.of(context).size.width / 2 - 50,
             child: Column(
               children: const [
@@ -122,12 +124,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _login() {
+  void _login() async {
     if (_loginFormKey.currentState?.validate() ?? false) {
       var username = _txtUsername.text;
       var password = _txtPassword.text;
 
-      Get.showOverlay(
+      var loginResponse = await Get.showOverlay(
         asyncFunction: () => _authService.login(username, password),
         loadingWidget: Center(
           child: Container(
@@ -137,15 +139,18 @@ class _LoginPageState extends State<LoginPage> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
+            child: const Padding(
+              padding: EdgeInsets.all(10.0),
               child: LoadingWidget(),
             ),
           ),
         ),
-      ).then((value) {
-        if (value.isLoggedIn) {
-          _authService.setLoginToken(value.authToken!);
+      );
+
+      if (loginResponse.isLoggedIn) {
+          await _authService.setLoginToken(loginResponse.authToken!);
+
+          debugPrint(Get.isRegistered<AuthToken>().toString());
 
           Get.offAllNamed('/home');
         } else {
@@ -154,7 +159,6 @@ class _LoginPageState extends State<LoginPage> {
             duration: Duration(seconds: 2),
           ));
         }
-      });
     }
   }
 }

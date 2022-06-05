@@ -4,59 +4,15 @@ import 'package:appair/entities/info.dart';
 import 'package:appair/entities/pagination.dart';
 import 'package:appair/repository/info_repository.dart';
 import 'package:appair/repository/transaksi_repository.dart';
+import 'package:appair/screens/home/home_controller.dart';
 import 'package:appair/screens/home/widget/active_transaction_widget.dart';
 import 'package:appair/screens/home/widget/info_list.dart';
 import 'package:appair/service/info_service.dart';
 import 'package:appair/service/transaksi_service.dart';
 import 'package:appair/widgets/loading_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-class HomeData {
-  Pagination<Info> listInfoResponse;
-  TransaksiActiveResponse transaksiActiveResponse;
-
-  HomeData(
-      {required this.listInfoResponse, required this.transaksiActiveResponse});
-}
-
-class HomeController extends GetxController with StateMixin<HomeData> {
-  final _infoService = Get.find<InfoService>();
-  final _transaksiService = Get.find<TransaksiService>();
-
-  @override
-  void onInit() {
-    super.onInit();
-
-    _load();
-  }
-
-  Future<void> _load() {
-    change(null, status: RxStatus.loading());
-
-    return Future.wait([
-      _infoService.list(),
-      _transaksiService.transaksiActive(),
-    ]).then((value) {
-      var listInfoResponse = value[0] as Pagination<Info>;
-      var transaksiActiveResponse = value[1] as TransaksiActiveResponse;
-
-      if (listInfoResponse.isNotEmpty) {
-        change(
-          HomeData(
-            listInfoResponse: listInfoResponse,
-            transaksiActiveResponse: transaksiActiveResponse,
-          ),
-          status: RxStatus.success(),
-        );
-      } else {
-        change(null, status: RxStatus.error("Empty"));
-      }
-    }).catchError((error) {
-      change(null, status: RxStatus.error(error.toString()));
-    });
-  }
-}
 
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
@@ -78,27 +34,36 @@ class HomePage extends GetView<HomeController> {
           )
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: controller._load,
-        child: controller.obx(
-          (state) => ListView.builder(
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              if (index == 0) return const ActiveTransactionWidget();
-              if (index == 1) {
-                return const SizedBox(
-                  height: 20,
-                );
-              }
-              if (index == 2) return _buildInfoList();
-
-              return Container();
-            },
+      body: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          SizedBox.fromSize(
+            size: const Size.fromHeight(300),
+            child: const DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+            ),
           ),
-          onLoading: const Center(
-            child: LoadingWidget(),
+          RefreshIndicator(
+            onRefresh: controller.load,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  const ActiveTransactionWidget(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  _buildInfoList()
+                ],
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

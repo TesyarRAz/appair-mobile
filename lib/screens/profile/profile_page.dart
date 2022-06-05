@@ -58,7 +58,7 @@ class ProfilePage extends GetView<ProfileController> {
             onPressed: () {
               Get.dialog(
                 AlertDialog(
-                  content: Text("Yakin ingin logout ?"),
+                  content: const Text("Yakin ingin logout ?"),
                   actions: [
                     TextButton(
                       child: const Text("Ya"),
@@ -110,28 +110,52 @@ class ProfilePage extends GetView<ProfileController> {
                     ),
                     Text(
                       user.name ?? '',
-                      style:
-                          const TextStyle(fontSize: 20, fontFamily: "Ubuntu"),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontFamily: "Ubuntu",
+                        fontWeight: FontWeight.bold,
+                      ),
                     )
                   ],
                 ),
               ),
             ],
           ),
-          SizedBox(height: 100),
+          SizedBox(height: 80),
           Column(
-            children: const [
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text(
-                  "Riwayat Pembayaran",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: "Ubuntu",
-                  ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                        child: Divider(
+                      endIndent: 20,
+                    )),
+                    Text(
+                      "Riwayat Pembayaran",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: "Ubuntu",
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        indent: 20,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              ListTransaksi(),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTransaksi(),
+              ),
             ],
           )
         ],

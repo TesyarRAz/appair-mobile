@@ -20,23 +20,68 @@ class ListTransaksi extends GetView<ProfileController> {
           itemBuilder: (context, index) {
             var transaksi = listTransaksiResponse!.data[index];
             return Card(
-              child: Column(
-                children: [
-                  Text(transaksi.kode),
-                  Spacer(),
-                  Text(transaksi.tanggalBayar ?? '-'),
-                ],
-              )
-            );
+                elevation: 10,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            transaksi.kode,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: "Ubuntu",
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            transaksi.tanggalBayar ?? '-',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: "Ubuntu",
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          Spacer(),
+                          Chip(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            backgroundColor: transaksi.status == "lunas"
+                                ? Colors.green
+                                : Colors.red,
+                            labelStyle: const TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Ubuntu',
+                            ),
+                            label: Text(
+                              transaksi.statusText,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ));
           },
         );
       },
-      onLoading: const Center(
-        child: LoadingWidget(),
-      ),
+      // onLoading: const Center(
+      //   child: LoadingWidget(),
+      // ),
       onEmpty: Column(
         children: const [
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           Text('Tidak ada riwayat pembayaran'),
         ],
       ),
