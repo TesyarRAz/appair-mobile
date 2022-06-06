@@ -1,25 +1,14 @@
-import 'package:appair/entities/user.dart';
-import 'package:appair/repository/auth_repository.dart';
-import 'package:appair/service/auth_service.dart';
-import 'package:appair/widgets/loading_widget.dart';
+import 'package:appair/screens/login/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends GetView<LoginController> {
   final _loginFormKey = GlobalKey<FormState>();
 
   final _txtUsername = TextEditingController();
   final _txtPassword = TextEditingController();
 
-  final _authService = Get.find<AuthService>();
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -124,41 +113,13 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _login() async {
+  void _login() {
     if (_loginFormKey.currentState?.validate() ?? false) {
       var username = _txtUsername.text;
       var password = _txtPassword.text;
 
-      var loginResponse = await Get.showOverlay(
-        asyncFunction: () => _authService.login(username, password),
-        loadingWidget: Center(
-          child: Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: LoadingWidget(),
-            ),
-          ),
-        ),
-      );
-
-      if (loginResponse.isLoggedIn) {
-          await _authService.setLoginToken(loginResponse.authToken!);
-
-          debugPrint(Get.isRegistered<AuthToken>().toString());
-
-          Get.offAllNamed('/home');
-        } else {
-          Get.showSnackbar(const GetSnackBar(
-            message: "Username atau password salah",
-            duration: Duration(seconds: 2),
-          ));
-        }
+      controller.login(username, password);
     }
   }
+
 }

@@ -1,45 +1,11 @@
 import 'package:appair/entities/pagination.dart';
 import 'package:appair/entities/transaksi.dart';
 import 'package:appair/entities/user.dart';
+import 'package:appair/screens/profile/profile_controller.dart';
 import 'package:appair/screens/profile/widget/list_transaksi.dart';
 import 'package:appair/service/auth_service.dart';
-import 'package:appair/service/transaksi_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-class ProfileData {
-  final Pagination<Transaksi> listTransaksiResponse;
-
-  ProfileData({required this.listTransaksiResponse});
-}
-
-class ProfileController extends GetxController with StateMixin<ProfileData> {
-  final _transaksiService = Get.find<TransaksiService>();
-
-  @override
-  void onInit() {
-    super.onInit();
-
-    _load();
-  }
-
-  void _load() {
-    _transaksiService.history().then((value) {
-      if (value.isNotEmpty) {
-        change(
-          ProfileData(
-            listTransaksiResponse: value,
-          ),
-          status: RxStatus.success(),
-        );
-      } else {
-        change(null, status: RxStatus.empty());
-      }
-    }).catchError((error) {
-      change(null, status: RxStatus.error(error.toString()));
-    });
-  }
-}
 
 class ProfilePage extends GetView<ProfileController> {
   final user = Get.find<User>();
@@ -63,10 +29,9 @@ class ProfilePage extends GetView<ProfileController> {
                     TextButton(
                       child: const Text("Ya"),
                       onPressed: () {
-                        Get.back();
-                        Get.find<AuthService>().clearLoginToken();
+                        controller.logout();
 
-                        Get.offAndToNamed("/login");
+                        Get.back();
                       },
                     ),
                     TextButton(

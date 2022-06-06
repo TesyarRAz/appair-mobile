@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 class WebViewPage extends StatelessWidget {
   final String url;
 
-  const WebViewPage({required this.url});
+  const WebViewPage({required this.url, });
 
   @override
   Widget build(BuildContext context) {

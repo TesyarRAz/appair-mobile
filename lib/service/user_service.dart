@@ -7,11 +7,17 @@ class UserService extends GetxService {
 
   UserService({required this.repository});
 
-  Future<User?> user() async {
+  Future<User?> user({bool register = true}) async {
     var data = await repository.user().catchError((error) => throw error);
 
     if (data.isNotEmpty) {
-      return User.fromJson(data);
+      var user = User.fromJson(data);
+      
+      if (register) {
+        Get.put(user);
+      }
+
+      return user;
     }
 
     return null;

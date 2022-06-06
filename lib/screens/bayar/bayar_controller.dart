@@ -21,9 +21,7 @@ class BayarController extends GetxController with StateMixin<BayarData> {
   final setting = Setting().obs;
 
   @override
-  void onInit() {
-    super.onInit();
-
+  void onReady() {
     jumlahKubikController.addListener(() {
       kuantitas.value = int.tryParse(jumlahKubikController.text) ?? 0;
       totalHarga.value = kuantitas.value *

@@ -1,12 +1,10 @@
-import 'package:appair/entities/user.dart';
-import 'package:appair/repository/user_repository.dart';
+
 import 'package:appair/service/auth_service.dart';
 import 'package:appair/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SplashController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class SplashController extends GetxController with GetSingleTickerProviderStateMixin {
   final _userService = Get.find<UserService>();
   final _authService = Get.find<AuthService>();
 
@@ -23,12 +21,18 @@ class SplashController extends GetxController
         AnimationController(vsync: this, duration: const Duration(seconds: 1))..repeat(reverse: true);
 
     iconAnimation = Tween<double>(begin: 0.5, end: 1).animate(animationController);
+  }
+
+  @override
+  void onReady() {
+    _authService.registerExistsToken();
 
     if (_authService.hasLoginToken()) {
+      debugPrint("Login Token Is Exists By Splash Controller");
       _load();
     } else {
       Future.delayed(loadMinimal, () {
-        Get.offAndToNamed("/login");
+        Get.offAllNamed("/login");
       });
     }
   }
@@ -41,16 +45,15 @@ class SplashController extends GetxController
 
   void _load() {
     var time = Stopwatch()..start();
+    
     _userService.user().then((value) {
       Future.delayed(loadMinimal - time.elapsed, () {
         if (value != null) {
-          Get.put(value);
-
-          Get.offAndToNamed("/home");
+          Get.offAllNamed("/home");
         } else {
           _authService.clearLoginToken();
 
-          Get.offAndToNamed("/login");
+          Get.offAllNamed("/login");
         }
       });
     }).catchError((error) {
@@ -70,31 +73,5 @@ class SplashController extends GetxController
         ),
       );
     });
-  }
-}
-
-class SplashPage extends GetView<SplashController> {
-  const SplashPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: AnimatedBuilder(
-          animation: controller.iconAnimation,
-          builder: (context, child) {
-            return Transform.scale(
-              scale: controller.iconAnimation.value,
-              child: child,
-            );
-          },
-          child: const Icon(
-            Icons.water,
-            size: 100,
-            color: Colors.blue,
-          ),
-        )
-      ),
-    );
   }
 }

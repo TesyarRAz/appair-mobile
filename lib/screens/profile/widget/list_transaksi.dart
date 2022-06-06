@@ -1,3 +1,4 @@
+import 'package:appair/screens/profile/profile_controller.dart';
 import 'package:appair/screens/profile/profile_page.dart';
 import 'package:appair/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';

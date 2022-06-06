@@ -7,52 +7,56 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService extends GetxService {
   final AuthRepository repository;
-  final UserRepository userRepository;
   final SharedPreferences preferences;
 
   AuthService({
     required this.repository,
     required this.preferences,
-    required this.userRepository,
   });
-
-  @override
-  @mustCallSuper
-  void onInit() {
-    super.onInit();
-
-    if (hasLoginToken()) {
-      setLoginToken(getLoginToken()!, register: false);
-    }
-  }
 
   Future<LoginResponse> login(String username, String password) async {
     var data = await repository.login(username, password);
 
-    if (data.containsKey("token")) {
-      setLoginToken(data["token"]);
+    var dataSuccess = data.getOrElse(() => {});
+    var dataFail = data.getOrElse(() => {});
+
+    if (dataSuccess.containsKey("token")) {
+      setLoginToken(dataSuccess["token"]);
 
       return LoginResponse(
         isLoggedIn: true,
-        authToken: data['token'],
+        authToken: dataSuccess['token'],
       );
     }
 
     return LoginResponse(
       isLoggedIn: false,
+      dataFail: dataFail,
     );
   }
 
-  Future<void> setLoginToken(String token, {bool register = true}) {
+  Future<bool> logout() async {
+    clearLoginToken();
+    Get.delete<User>();
+
+    return true;
+  }
+
+  void registerExistsToken({ bool register = false}) {
+    if (hasLoginToken()) {
+      setLoginToken(getLoginToken()!, register: register);
+    }
+
+    debugPrint("Prefs Auth Token Exists : ${hasLoginToken()}");
+    debugPrint("Auth Token Exists : ${Get.isRegistered<AuthToken>()}");
+  }
+
+  void setLoginToken(String token, {bool register = true}) {
     Get.put(AuthToken(token: token));
 
     if (register) {
       preferences.setString("authToken", token);
     }
-
-    return userRepository.user().then((user) {
-      Get.put(user);
-    });
   }
 
   void clearLoginToken() {
@@ -73,9 +77,11 @@ class AuthService extends GetxService {
 class LoginResponse {
   final bool isLoggedIn;
   final String? authToken;
+  final Map<String, dynamic>? dataFail;
 
   LoginResponse({
     required this.isLoggedIn,
     this.authToken,
+    this.dataFail,
   });
 }
