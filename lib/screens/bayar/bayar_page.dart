@@ -60,7 +60,7 @@ class BayarPage extends GetView<BayarController> {
                         height: 30,
                       ),
                       const Text(
-                        'Tanah Kamu',
+                        'Jumlah Pemakaian',
                         style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'Ubuntu',

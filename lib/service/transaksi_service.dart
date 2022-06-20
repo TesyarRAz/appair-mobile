@@ -17,7 +17,7 @@ class TransaksiService extends GetxService {
   }
 
   Future<Pagination<Transaksi>> history([String? cursor]) async {
-    var pagination = await repository.history(cursor);
+    var pagination = await repository.history(cursor).catchError((error) => throw error);
 
     if (pagination != null) {
       return Pagination(

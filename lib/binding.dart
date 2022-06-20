@@ -5,18 +5,15 @@ import 'package:appair/repository/info_repository.dart';
 import 'package:appair/repository/setting_repository.dart';
 import 'package:appair/repository/transaksi_repository.dart';
 import 'package:appair/repository/user_repository.dart';
-import 'package:appair/screens/bayar/bayar_controller.dart';
-import 'package:appair/screens/home/home_controller.dart';
-import 'package:appair/screens/login/login_controller.dart';
-import 'package:appair/screens/profile/profile_controller.dart';
-import 'package:appair/screens/splash/splash_controller.dart';
 import 'package:appair/service/auth_service.dart';
 import 'package:appair/service/info_service.dart';
 import 'package:appair/service/setting_service.dart';
 import 'package:appair/service/transaksi_service.dart';
 import 'package:appair/service/user_service.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,6 +25,10 @@ class AppBinding extends Bindings {
       (value) async => await jsonDecode(value),
     );
 
+    initializeDateFormatting();
+
+    // Get.locale = Get.deviceLocale ?? const Locale('id', 'ID');
+    
     Get.put(await PackageInfo.fromPlatform());
 
     var preferences = Get.put(await SharedPreferences.getInstance());

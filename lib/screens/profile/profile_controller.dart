@@ -10,10 +10,10 @@ class ProfileController extends GetxController with StateMixin<ProfileData> {
 
   @override
   void onReady() {
-    _load();
+    load();
   }
 
-  void _load() {
+  void load() {
     _transaksiService.history().then((value) {
       if (value.isNotEmpty) {
         change(
