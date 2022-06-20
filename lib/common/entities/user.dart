@@ -1,4 +1,4 @@
-import 'package:appair/entities/customer.dart';
+import 'package:appair/common/entities/customer.dart';
 
 class User {
   int? id;

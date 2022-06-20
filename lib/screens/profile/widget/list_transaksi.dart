@@ -1,11 +1,11 @@
-import 'package:appair/screens/profile/profile_controller.dart';
-import 'package:appair/screens/profile/profile_page.dart';
-import 'package:appair/widgets/loading_widget.dart';
+import 'package:appair/screens//profile/profile_controller.dart';
+import 'package:appair/screens//profile/profile_page.dart';
+import 'package:appair/common/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:appair/util/date_util.dart';
+import 'package:appair/common/util/date_util.dart';
 
 class ListTransaksi extends GetView<ProfileController> {
   const ListTransaksi({Key? key}) : super(key: key);

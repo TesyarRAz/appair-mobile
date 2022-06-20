@@ -1,5 +1,5 @@
-import 'package:appair/entities/pagination.dart';
-import 'package:appair/repository/repository.dart';
+import 'package:appair/common/entities/pagination.dart';
+import 'package:appair/common/repository/repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 

@@ -1,6 +1,6 @@
-import 'package:appair/entities/user.dart';
-import 'package:appair/repository/auth_repository.dart';
-import 'package:appair/repository/user_repository.dart';
+import 'package:appair/common/entities/user.dart';
+import 'package:appair/common/repository/auth_repository.dart';
+import 'package:appair/common/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';

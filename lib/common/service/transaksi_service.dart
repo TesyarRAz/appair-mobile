@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
-import 'package:appair/entities/pagination.dart';
-import 'package:appair/entities/transaksi.dart';
-import 'package:appair/repository/transaksi_repository.dart';
+import 'package:appair/common/entities/pagination.dart';
+import 'package:appair/common/entities/transaksi.dart';
+import 'package:appair/common/repository/transaksi_repository.dart';
 import 'package:get/get.dart';
 
 class TransaksiService extends GetxService {

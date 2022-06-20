@@ -1,7 +1,7 @@
-import 'package:appair/entities/info.dart';
-import 'package:appair/entities/pagination.dart';
-import 'package:appair/service/info_service.dart';
-import 'package:appair/service/transaksi_service.dart';
+import 'package:appair/common/entities/info.dart';
+import 'package:appair/common/entities/pagination.dart';
+import 'package:appair/common/service/info_service.dart';
+import 'package:appair/common/service/transaksi_service.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {

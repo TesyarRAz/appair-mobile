@@ -1,15 +1,16 @@
-
 import 'package:appair/binding.dart';
-import 'package:appair/screens/bayar/bayar_binding.dart';
-import 'package:appair/screens/bayar/bayar_page.dart';
-import 'package:appair/screens/home/home_binding.dart';
-import 'package:appair/screens/home/home_page.dart';
-import 'package:appair/screens/login/login_binding.dart';
-import 'package:appair/screens/login/login_page.dart';
-import 'package:appair/screens/profile/profile_binding.dart';
-import 'package:appair/screens/profile/profile_page.dart';
-import 'package:appair/screens/splash/splash_binding.dart';
-import 'package:appair/screens/splash/splash_page.dart';
+import 'package:appair/screens//bayar/bayar_binding.dart';
+import 'package:appair/screens//bayar/bayar_page.dart';
+import 'package:appair/screens//home/home_binding.dart';
+import 'package:appair/screens//home/home_page.dart';
+import 'package:appair/screens//login/login_binding.dart';
+import 'package:appair/screens//login/login_page.dart';
+import 'package:appair/screens//profile/profile_binding.dart';
+import 'package:appair/screens//profile/profile_page.dart';
+import 'package:appair/screens//splash/splash_binding.dart';
+import 'package:appair/screens//splash/splash_page.dart';
+import 'package:appair/screens/setting/change_password_binding.dart';
+import 'package:appair/screens/setting/change_password_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -74,6 +75,12 @@ class MyApp extends StatelessWidget {
           page: () => const BayarPage(),
           transition: Transition.rightToLeft,
           binding: BayarBinding(),
+        ),
+        GetPage(
+          name: "/change-password",
+          page: () => ChangePasswordPage(),
+          transition: Transition.rightToLeft,
+          binding: ChangePasswordBinding(),
         ),
       ],
     );

@@ -1,5 +1,5 @@
-import 'package:appair/entities/setting.dart';
-import 'package:appair/repository/setting_repository.dart';
+import 'package:appair/common/entities/setting.dart';
+import 'package:appair/common/repository/setting_repository.dart';
 import 'package:get/get.dart';
 
 class SettingService extends GetxService {

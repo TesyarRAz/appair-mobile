@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:appair/entities/info.dart';
-import 'package:appair/entities/pagination.dart';
-import 'package:appair/repository/info_repository.dart';
-import 'package:appair/repository/transaksi_repository.dart';
-import 'package:appair/screens/home/home_controller.dart';
-import 'package:appair/screens/home/widget/active_transaction_widget.dart';
-import 'package:appair/screens/home/widget/info_list.dart';
-import 'package:appair/service/info_service.dart';
-import 'package:appair/service/transaksi_service.dart';
-import 'package:appair/widgets/loading_widget.dart';
+import 'package:appair/common/entities/info.dart';
+import 'package:appair/common/entities/pagination.dart';
+import 'package:appair/common/repository/info_repository.dart';
+import 'package:appair/common/repository/transaksi_repository.dart';
+import 'package:appair/screens//home/home_controller.dart';
+import 'package:appair/screens//home/widget/active_transaction_widget.dart';
+import 'package:appair/screens//home/widget/info_list.dart';
+import 'package:appair/common/service/info_service.dart';
+import 'package:appair/common/service/transaksi_service.dart';
+import 'package:appair/common/widgets/loading_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

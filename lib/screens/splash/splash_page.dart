@@ -1,8 +1,8 @@
-import 'package:appair/entities/user.dart';
-import 'package:appair/repository/user_repository.dart';
-import 'package:appair/screens/splash/splash_controller.dart';
-import 'package:appair/service/auth_service.dart';
-import 'package:appair/service/user_service.dart';
+import 'package:appair/common/entities/user.dart';
+import 'package:appair/common/repository/user_repository.dart';
+import 'package:appair/screens//splash/splash_controller.dart';
+import 'package:appair/common/service/auth_service.dart';
+import 'package:appair/common/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

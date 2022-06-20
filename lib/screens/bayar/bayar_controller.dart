@@ -1,8 +1,8 @@
-import 'package:appair/entities/setting.dart';
-import 'package:appair/screens/bayar/data/bayar_data.dart';
-import 'package:appair/service/setting_service.dart';
-import 'package:appair/service/transaksi_service.dart';
-import 'package:appair/widgets/loading_widget.dart';
+import 'package:appair/common/entities/setting.dart';
+import 'package:appair/screens//bayar/data/bayar_data.dart';
+import 'package:appair/common/service/setting_service.dart';
+import 'package:appair/common/service/transaksi_service.dart';
+import 'package:appair/common/widgets/loading_widget.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

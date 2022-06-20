@@ -1,4 +1,4 @@
-import 'package:appair/screens/home/home_controller.dart';
+import 'package:appair/screens//home/home_controller.dart';
 import 'package:get/get.dart';
 
 class HomeBinding extends Bindings {

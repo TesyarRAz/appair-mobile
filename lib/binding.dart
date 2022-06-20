@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:appair/repository/auth_repository.dart';
-import 'package:appair/repository/info_repository.dart';
-import 'package:appair/repository/setting_repository.dart';
-import 'package:appair/repository/transaksi_repository.dart';
-import 'package:appair/repository/user_repository.dart';
-import 'package:appair/service/auth_service.dart';
-import 'package:appair/service/info_service.dart';
-import 'package:appair/service/setting_service.dart';
-import 'package:appair/service/transaksi_service.dart';
-import 'package:appair/service/user_service.dart';
+import 'package:appair/common/repository/auth_repository.dart';
+import 'package:appair/common/repository/info_repository.dart';
+import 'package:appair/common/repository/setting_repository.dart';
+import 'package:appair/common/repository/transaksi_repository.dart';
+import 'package:appair/common/repository/user_repository.dart';
+import 'package:appair/common/service/auth_service.dart';
+import 'package:appair/common/service/info_service.dart';
+import 'package:appair/common/service/setting_service.dart';
+import 'package:appair/common/service/transaksi_service.dart';
+import 'package:appair/common/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

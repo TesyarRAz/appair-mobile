@@ -1,4 +1,4 @@
-import 'package:appair/repository/repository.dart';
+import 'package:appair/common/repository/repository.dart';
 
 class SettingRepository extends Repository {
   SettingRepository({required super.baseUrl});

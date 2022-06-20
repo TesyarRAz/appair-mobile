@@ -1,7 +1,7 @@
 
-import 'package:appair/screens/profile/data/profile_data.dart';
-import 'package:appair/service/auth_service.dart';
-import 'package:appair/service/transaksi_service.dart';
+import 'package:appair/screens//profile/data/profile_data.dart';
+import 'package:appair/common/service/auth_service.dart';
+import 'package:appair/common/service/transaksi_service.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController with StateMixin<ProfileData> {

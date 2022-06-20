@@ -1,5 +1,5 @@
-import 'package:appair/entities/pagination.dart';
-import 'package:appair/entities/transaksi.dart';
+import 'package:appair/common/entities/pagination.dart';
+import 'package:appair/common/entities/transaksi.dart';
 
 class ProfileData {
   final Pagination<Transaksi> listTransaksiResponse;

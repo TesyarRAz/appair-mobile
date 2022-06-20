@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
-import 'package:appair/entities/setting.dart';
-import 'package:appair/screens/bayar/bayar_controller.dart';
-import 'package:appair/util/number_util.dart';
+import 'package:appair/common/entities/setting.dart';
+import 'package:appair/screens//bayar/bayar_controller.dart';
+import 'package:appair/common/util/number_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

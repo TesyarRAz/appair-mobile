@@ -1,6 +1,6 @@
 
-import 'package:appair/service/auth_service.dart';
-import 'package:appair/service/user_service.dart';
+import 'package:appair/common/service/auth_service.dart';
+import 'package:appair/common/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

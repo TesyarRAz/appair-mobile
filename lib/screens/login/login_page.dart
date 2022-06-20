@@ -1,4 +1,4 @@
-import 'package:appair/screens/login/login_controller.dart';
+import 'package:appair/screens//login/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

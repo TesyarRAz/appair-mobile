@@ -1,6 +1,6 @@
-import 'package:appair/entities/info.dart';
-import 'package:appair/entities/pagination.dart';
-import 'package:appair/repository/info_repository.dart';
+import 'package:appair/common/entities/info.dart';
+import 'package:appair/common/entities/pagination.dart';
+import 'package:appair/common/repository/info_repository.dart';
 import 'package:get/get.dart';
 
 class InfoService extends GetxService {

@@ -1,4 +1,4 @@
-import 'package:appair/entities/user.dart';
+import 'package:appair/common/entities/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

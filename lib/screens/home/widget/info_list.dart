@@ -1,7 +1,7 @@
-import 'package:appair/entities/info.dart';
-import 'package:appair/entities/pagination.dart';
-import 'package:appair/screens/home/home_controller.dart';
-import 'package:appair/screens/webview_page.dart';
+import 'package:appair/common/entities/info.dart';
+import 'package:appair/common/entities/pagination.dart';
+import 'package:appair/screens//home/home_controller.dart';
+import 'package:appair/screens//webview_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

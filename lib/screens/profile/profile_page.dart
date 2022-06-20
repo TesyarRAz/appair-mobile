@@ -1,6 +1,6 @@
-import 'package:appair/entities/user.dart';
-import 'package:appair/screens/profile/profile_controller.dart';
-import 'package:appair/screens/profile/widget/list_transaksi.dart';
+import 'package:appair/common/entities/user.dart';
+import 'package:appair/screens//profile/profile_controller.dart';
+import 'package:appair/screens//profile/widget/list_transaksi.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,30 +17,44 @@ class ProfilePage extends GetView<ProfileController> {
         title: const Text("App Air"),
         leading: const BackButton(),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.exit_to_app),
-            onPressed: () {
-              Get.dialog(
-                AlertDialog(
-                  content: const Text("Yakin ingin logout ?"),
-                  actions: [
-                    TextButton(
-                      child: const Text("Ya"),
-                      onPressed: () {
-                        controller.logout();
+          PopupMenuButton(
+            // child: const Icon(Icons.more_vert),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: "change-password",
+                child: const Text("Ganti Password"),
+              ),
+              PopupMenuItem(
+                value: "logout",
+                child: const Text("Logout"),
+              ),
+            ],
+            onSelected: (value) {
+              if (value == 'change-password') {
+                Get.toNamed("/change-password");
+              } else if (value == 'logout') {
+                Get.dialog(
+                  AlertDialog(
+                    content: const Text("Yakin ingin logout ?"),
+                    actions: [
+                      TextButton(
+                        child: const Text("Ya"),
+                        onPressed: () {
+                          controller.logout();
 
-                        Get.back();
-                      },
-                    ),
-                    TextButton(
-                      child: const Text("Tidak"),
-                      onPressed: () {
-                        Get.back();
-                      },
-                    ),
-                  ],
-                ),
-              );
+                          Get.back();
+                        },
+                      ),
+                      TextButton(
+                        child: const Text("Tidak"),
+                        onPressed: () {
+                          Get.back();
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }
             },
           ),
         ],

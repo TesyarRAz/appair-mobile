@@ -1,9 +1,9 @@
-import 'package:appair/screens/home/home_controller.dart';
-import 'package:appair/service/transaksi_service.dart';
+import 'package:appair/screens//home/home_controller.dart';
+import 'package:appair/common/service/transaksi_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:appair/util/number_util.dart';
-import 'package:appair/util/date_util.dart';
+import 'package:appair/common/util/number_util.dart';
+import 'package:appair/common/util/date_util.dart';
 
 class ActiveTransactionWidget extends GetView<HomeController> {
   const ActiveTransactionWidget({Key? key}) : super(key: key);

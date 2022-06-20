@@ -1,17 +1,19 @@
-import 'package:appair/common/service/auth_service.dart';
 import 'package:appair/common/service/user_service.dart';
 import 'package:appair/common/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginController extends GetxController {
-  final _authService = Get.find<AuthService>();
-  final _userService = Get.find<UserService>();
+class ChangePasswordController extends GetxController {
+  final UserService userService = Get.find<UserService>();
 
-  void login(String username, String password) async {
-    var loginResponse = await Get.showOverlay(
-      asyncFunction: () =>
-          _authService.login(username, password).catchError((error) => throw error),
+  void changePassword(
+    String oldPassword,
+    String newPassword,
+    String newPasswordConfirmation,
+  ) async {
+    var success = await Get.showOverlay(
+      asyncFunction: () => userService.changePassword(
+          oldPassword, newPassword, newPasswordConfirmation),
       loadingWidget: Center(
         child: Container(
           height: 100,
@@ -26,8 +28,7 @@ class LoginController extends GetxController {
           ),
         ),
       ),
-    )
-    .catchError((error) {
+    ).catchError((error) {
       debugPrint(error.toString());
 
       Get.showSnackbar(const GetSnackBar(
@@ -36,13 +37,17 @@ class LoginController extends GetxController {
       ));
     });
 
-    if (loginResponse.isLoggedIn) {
-      await _userService.user();
+    if (success) {
+      Get.back();
 
-      Get.offAllNamed('/home');
+      Get.showSnackbar(const GetSnackBar(
+        message: "Password berhasil diubah",
+        duration: Duration(seconds: 2),
+      ));
     } else {
       Get.showSnackbar(const GetSnackBar(
-        message: "Username atau password salah",
+        message: "Gagal mengubah password",
+        backgroundColor: Colors.red,
         duration: Duration(seconds: 2),
       ));
     }

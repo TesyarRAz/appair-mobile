@@ -1,4 +1,4 @@
-import 'package:appair/repository/repository.dart';
+import 'package:appair/common/repository/repository.dart';
 import 'package:dartz/dartz.dart';
 
 class AuthRepository extends Repository {

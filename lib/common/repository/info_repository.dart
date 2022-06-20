@@ -1,6 +1,6 @@
 
-import 'package:appair/entities/pagination.dart';
-import 'package:appair/repository/repository.dart';
+import 'package:appair/common/entities/pagination.dart';
+import 'package:appair/common/repository/repository.dart';
 
 class InfoRepository extends Repository {
   InfoRepository({required super.baseUrl});
