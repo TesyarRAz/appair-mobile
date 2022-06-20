@@ -31,6 +31,7 @@ class ChangePasswordController extends GetxController {
     ).catchError((error) {
       debugPrint(error.toString());
 
+      Get.back();
       Get.showSnackbar(const GetSnackBar(
         message: "Terjadi masalah saat login",
         duration: Duration(seconds: 2),

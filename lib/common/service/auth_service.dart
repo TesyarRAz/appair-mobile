@@ -20,8 +20,8 @@ class AuthService extends GetxService {
     var dataSuccess = data.getOrElse(() => {});
     var dataFail = data.getOrElse(() => {});
 
-    if (dataSuccess.containsKey("token")) {
-      setLoginToken(dataSuccess["token"]);
+    if (dataSuccess?.containsKey("token") ?? false) {
+      setLoginToken(dataSuccess!["token"]);
 
       return LoginResponse(
         isLoggedIn: true,

@@ -8,7 +8,7 @@ class InfoService extends GetxService {
 
   InfoService({required this.repository});
 
-  Future<Pagination<Info>> list([String? cursor]) async {
+  Future<Pagination<Info>?> list([String? cursor]) async {
     var pagination = await repository.list(cursor);
 
     if (pagination != null) {
@@ -20,6 +20,6 @@ class InfoService extends GetxService {
       );
     }
 
-    return Pagination();
+    return null;
   }
 }

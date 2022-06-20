@@ -12,6 +12,7 @@ class SplashPage extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: AnimatedBuilder(
           animation: controller.iconAnimation,

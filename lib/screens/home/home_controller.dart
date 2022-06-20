@@ -8,7 +8,7 @@ class HomeController extends GetxController {
   final _infoService = Get.find<InfoService>();
   final _transaksiService = Get.find<TransaksiService>();
 
-  final listInfoResponse = Pagination<Info>().obs;
+  final listInfoResponse = Rx<Pagination<Info>?>(null);
   final transaksiActiveResponse = TransaksiActiveResponse().obs;
 
   @override

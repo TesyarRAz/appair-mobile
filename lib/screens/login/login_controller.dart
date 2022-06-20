@@ -30,6 +30,7 @@ class LoginController extends GetxController {
     .catchError((error) {
       debugPrint(error.toString());
 
+      Get.back();
       Get.showSnackbar(const GetSnackBar(
         message: "Terjadi masalah saat login",
         duration: Duration(seconds: 2),
@@ -41,6 +42,7 @@ class LoginController extends GetxController {
 
       Get.offAllNamed('/home');
     } else {
+      debugPrint(loginResponse.dataFail.toString());
       Get.showSnackbar(const GetSnackBar(
         message: "Username atau password salah",
         duration: Duration(seconds: 2),

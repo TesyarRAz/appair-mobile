@@ -13,9 +13,22 @@ class InfoList extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return ObxValue<Rx<Pagination<Info>>>(
+    return ObxValue<Rx<Pagination<Info>?>>(
       (data) {
-        if (data.value.data.isEmpty) {
+        if (data.value == null) {
+          return const Padding(
+            padding: EdgeInsets.only(top: 10.0),
+            child: Text(
+              'Terjadi masalah saat meload data',
+              style: TextStyle(
+                fontFamily: 'Ubuntu',
+                fontSize: 14,
+              ),
+            ),
+          ); 
+        }
+
+        if (data.value!.data.isEmpty) {
           return const Padding(
             padding: EdgeInsets.only(top: 10.0),
             child: Text(
@@ -28,12 +41,14 @@ class InfoList extends GetView<HomeController> {
           );
         }
 
+        var dataList = data.value!.data;
+
         return ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: data.value.data.length,
+          itemCount: dataList.length,
           itemBuilder: (context, index) {
-            var info = data.value.data[index];
+            var info = dataList[index];
 
             return Padding(
               key: ObjectKey(info),

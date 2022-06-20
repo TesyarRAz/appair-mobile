@@ -77,7 +77,10 @@ class ActiveTransactionWidget extends GetView<HomeController> {
                             ),
                           ),
                           Text(
-                            data.value.data?.tanggalTempo?.toDateTime().toDateFormat('MMMM') ?? "-",
+                            data.value.data?.tanggalTempo
+                                    ?.toDateTime()
+                                    .toDateFormat('MMMM') ??
+                                "-",
                             style: const TextStyle(
                               fontSize: 20,
                               fontFamily: 'Ubuntu',
@@ -100,25 +103,23 @@ class ActiveTransactionWidget extends GetView<HomeController> {
                         ),
                       ),
                       const Spacer(),
-                      Row(
-                        children: [
-                          Text(
-                            "Tanggal Tempo: ${data.value.data?.tanggalTempo?.toDateTime().toDateFormat('dd-MMMM-yyyy') ?? "-"}",
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'Ubuntu',
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            "Tanggal Bayar: ${data.value.data?.tanggalBayar?.toDateTime().toDateFormat('dd-MMMM-yyyy') ?? "-"}",
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'Ubuntu',
-                            ),
-                          ),
-                        ],
-                      )
+                      Text(
+                        "Tanggal Tempo: ${data.value.data?.tanggalTempo?.toDateTime().toDateFormat('dd-MMMM-yyyy') ?? "-"}",
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'Ubuntu',
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "Tanggal Bayar: ${data.value.data?.tanggalBayar?.toDateTime().toDateFormat('dd-MMMM-yyyy') ?? "-"}",
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'Ubuntu',
+                        ),
+                      ),
                     ],
                   ),
                 ),
