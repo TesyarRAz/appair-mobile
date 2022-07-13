@@ -16,11 +16,22 @@ class ListTransaksi extends GetView<ProfileController> {
       (state) {
         var listTransaksiResponse = state?.listTransaksiResponse;
 
+        if (listTransaksiResponse!.isEmpty) {
+          return Column(
+            children: const [
+              SizedBox(
+                height: 10,
+              ),
+              Text('Tidak ada riwayat pembayaran'),
+            ],
+          );
+        }
+
         return ListView.builder(
           shrinkWrap: true,
-          itemCount: listTransaksiResponse?.data.length,
+          itemCount: listTransaksiResponse.data.length,
           itemBuilder: (context, index) {
-            var transaksi = listTransaksiResponse!.data[index];
+            var transaksi = listTransaksiResponse.data[index];
             return Card(
               elevation: 10,
               child: Padding(
@@ -32,27 +43,30 @@ class ListTransaksi extends GetView<ProfileController> {
                       children: [
                         Text(
                           transaksi.kode,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             fontFamily: "Ubuntu",
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
-                          transaksi.tanggalBayar?.toDateTime().toDateFormat('dd-MMMM-yyyy') ?? '-',
-                          style: TextStyle(
+                          transaksi.tanggalBayar
+                                  ?.toDateTime()
+                                  .toDateFormat('dd-MMMM-yyyy') ??
+                              '-',
+                          style: const TextStyle(
                             fontSize: 20,
                             fontFamily: "Ubuntu",
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
                       children: [
-                        Spacer(),
+                        const Spacer(),
                         Chip(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
@@ -85,7 +99,7 @@ class ListTransaksi extends GetView<ProfileController> {
           SizedBox(
             height: 10,
           ),
-          Text('Tidak ada riwayat pembayaran'),
+          Text('Terjadi masalah saat meload data'),
         ],
       ),
     );

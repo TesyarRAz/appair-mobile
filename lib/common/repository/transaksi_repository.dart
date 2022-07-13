@@ -17,6 +17,16 @@ class TransaksiRepository extends AuthorizedRepository {
     return {};
   }
 
+  Future<Map<String, dynamic>> transaksiLatest() async {
+    var response = await get('/transaksi?type=latest').catchError((error) => throw error);
+
+    if (response.statusCode == 200) {
+      return response.body;
+    }
+
+    return {};
+  }
+
   Future<Pagination<Map<String, dynamic>>?> history([String? cursor]) async {
     var response = await get('/transaksi?cursor=$cursor')
         .catchError((error) => throw error);
@@ -28,10 +38,10 @@ class TransaksiRepository extends AuthorizedRepository {
     return null;
   }
 
-  Future<Map<String, dynamic>> bayar(List<int> file, int kubik, String filename) async {
+  Future<Map<String, dynamic>> bayar(List<int> file, int meteranAkhir, String filename) async {
     var formData = FormData.fromMap({
       'bukti_bayar': MultipartFile.fromBytes(file, filename: filename),
-      'kuantitas': kubik,
+      'meteran_akhir': meteranAkhir,
     });
 
     var response = await dio().post("/transaksi/bayar", data: formData)

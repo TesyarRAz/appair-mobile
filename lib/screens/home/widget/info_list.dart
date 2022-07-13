@@ -1,21 +1,21 @@
 import 'package:appair/common/entities/info.dart';
-import 'package:appair/common/entities/pagination.dart';
 import 'package:appair/screens//home/home_controller.dart';
 import 'package:appair/screens//webview_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:platform_info/platform_info.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class InfoList extends GetView<HomeController> {
+class InfoList extends GetView<HomeInfoController> {
   const InfoList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ObxValue<Rx<Pagination<Info>?>>(
+    return controller.obx(
       (data) {
-        if (data.value == null) {
+        if (data == null) {
           return const Padding(
             padding: EdgeInsets.only(top: 10.0),
             child: Text(
@@ -25,10 +25,10 @@ class InfoList extends GetView<HomeController> {
                 fontSize: 14,
               ),
             ),
-          ); 
+          );
         }
 
-        if (data.value!.data.isEmpty) {
+        if (data.data.isEmpty) {
           return const Padding(
             padding: EdgeInsets.only(top: 10.0),
             child: Text(
@@ -41,7 +41,7 @@ class InfoList extends GetView<HomeController> {
           );
         }
 
-        var dataList = data.value!.data;
+        var dataList = data.data;
 
         return ListView.builder(
           shrinkWrap: true,
@@ -93,7 +93,26 @@ class InfoList extends GetView<HomeController> {
           },
         );
       },
-      controller.listInfoResponse,
+      onLoading: SizedBox.fromSize(
+        size: const Size.fromHeight(260),
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Container(),
+        ),
+      ),
+      onEmpty: SizedBox.fromSize(
+        size: const Size.fromHeight(260),
+        child: const Center(
+          child: Text("Tidak ada data"),
+        ),
+      ),
+      onError: (error) => SizedBox.fromSize(
+        size: const Size.fromHeight(260),
+        child: Center(
+          child: Text("Terjadi masalah saat meload data : ${error.toString()}"),
+        ),
+      ),
     );
   }
 

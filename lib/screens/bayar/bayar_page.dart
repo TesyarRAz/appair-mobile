@@ -45,36 +45,55 @@ class BayarPage extends GetView<BayarController> {
                           ),
                           const Spacer(),
                           ObxValue<Rx<Setting>>(
-                            (data) => Text(
-                              '${data.value.price?.perKubik.numberFormat ?? '-'} / Kubik',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'Ubuntu',
-                              ),
-                            ),
-                            controller.setting
-                          ),
+                              (data) => Text(
+                                    '${data.value.price?.perKubik.numberFormat ?? '-'} / Kubik',
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: 'Ubuntu',
+                                    ),
+                                  ),
+                              controller.setting),
                         ],
                       ),
                       const SizedBox(
                         height: 30,
                       ),
-                      const Text(
-                        'Jumlah Pemakaian',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Ubuntu',
+                      ObxValue<RxInt>(
+                        (data) => Text(
+                          "Meteran Awal : ${data.value}",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Ubuntu',
+                          ),
                         ),
+                        controller.meteranAwal,
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                       TextField(
-                        controller: controller.jumlahKubikController,
+                        controller: controller.meteranAkhirController,
                         decoration: const InputDecoration(
-                          hintText: 'Masukkan jumlah kubik',
+                          border: OutlineInputBorder(),
+                          labelText: 'Masukkan Meteran Akhir',
                         ),
                         keyboardType: const TextInputType.numberWithOptions(),
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 20,
+                      ),
+                      ObxValue<RxInt>(
+                        (data) => Text(
+                          'Total Kubik Penggunaan : ${data.value}',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Ubuntu',
+                          ),
+                        ),
+                        controller.meteranDigunakan,
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       ObxValue<RxInt>(
                         (data) => Text(
@@ -190,7 +209,8 @@ class BayarPage extends GetView<BayarController> {
                       ),
                       TextButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.blue),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blue),
                           minimumSize: MaterialStateProperty.all(
                               const Size.fromHeight(50)),
                         ),

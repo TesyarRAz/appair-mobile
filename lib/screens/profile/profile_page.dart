@@ -20,13 +20,13 @@ class ProfilePage extends GetView<ProfileController> {
           PopupMenuButton(
             // child: const Icon(Icons.more_vert),
             itemBuilder: (context) => [
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: "change-password",
-                child: const Text("Ganti Password"),
+                child: Text("Ganti Password"),
               ),
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: "logout",
-                child: const Text("Logout"),
+                child: Text("Logout"),
               ),
             ],
             onSelected: (value) {

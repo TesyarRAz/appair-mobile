@@ -9,6 +9,8 @@ class Transaksi {
   int? totalHarga;
   int? totalBayar;
   String? keteranganDitolak;
+  int? meteranAwal;
+  int? meteranAkhir;
 
   Transaksi({
     required this.id,
@@ -20,6 +22,8 @@ class Transaksi {
     required this.totalHarga,
     required this.totalBayar,
     required this.keteranganDitolak,
+    required this.meteranAwal,
+    required this.meteranAkhir,
   });
 
   factory Transaksi.fromJson(Map<String, dynamic> json) => Transaksi(
@@ -32,6 +36,8 @@ class Transaksi {
         totalHarga: json["total_harga"],
         totalBayar: json["total_bayar"],
         keteranganDitolak: json["keterangan_ditolak"],
+        meteranAwal: json["meteran_awal"],
+        meteranAkhir: json["meteran_akhir"],
       );
 
   String get statusText {

@@ -14,8 +14,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomePage extends GetView<HomeController> {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  final _homeInfoController = Get.find<HomeInfoController>();
+  final _homeTransaksiController = Get.find<HomeTransaksiController>();
+
+  HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +49,10 @@ class HomePage extends GetView<HomeController> {
             ),
           ),
           RefreshIndicator(
-            onRefresh: controller.load,
+            onRefresh: () => Future.wait([
+              _homeInfoController.load(),
+              _homeTransaksiController.load()
+            ]),
             child: ScrollConfiguration(
               behavior: ScrollConfiguration.of(context).copyWith(
                 dragDevices: {
@@ -78,7 +84,7 @@ class HomePage extends GetView<HomeController> {
 
   Widget _buildInfoList() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
       child: Card(
         elevation: 10,
         child: Padding(

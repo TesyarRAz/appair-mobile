@@ -16,7 +16,13 @@ class TransaksiService extends GetxService {
     return TransaksiActiveResponse.fromJson(data);
   }
 
-  Future<Pagination<Transaksi>> history([String? cursor]) async {
+  Future<TransaksiLatestResponse> transaksiLatest() async {
+    var data = await repository.transaksiLatest();
+
+    return TransaksiLatestResponse.fromJson(data);
+  }
+
+  Future<Pagination<Transaksi>?> history([String? cursor]) async {
     var pagination = await repository.history(cursor).catchError((error) => throw error);
 
     if (pagination != null) {
@@ -28,11 +34,11 @@ class TransaksiService extends GetxService {
       );
     }
 
-    return Pagination();
+    return null;
   }
 
-  Future<TransaksiBayarResponse> bayar(List<int> file, int kubik, String filename) async {
-    var data = await repository.bayar(file, kubik, filename).catchError((error) => throw error);
+  Future<TransaksiBayarResponse> bayar(List<int> file, int meteranAkhir, String filename) async {
+    var data = await repository.bayar(file, meteranAkhir, filename).catchError((error) => throw error);
  
     return TransaksiBayarResponse.fromJson(data);
   }
@@ -46,6 +52,18 @@ class TransaksiActiveResponse {
   });
 
   factory TransaksiActiveResponse.fromJson(Map<String, dynamic> json) => TransaksiActiveResponse(
+    data: json['data'] != null ? Transaksi.fromJson(json["data"]) : null,
+  );
+}
+
+class TransaksiLatestResponse {
+  Transaksi? data;
+
+  TransaksiLatestResponse({
+    this.data,
+  });
+
+  factory TransaksiLatestResponse.fromJson(Map<String, dynamic> json) => TransaksiLatestResponse(
     data: json['data'] != null ? Transaksi.fromJson(json["data"]) : null,
   );
 }

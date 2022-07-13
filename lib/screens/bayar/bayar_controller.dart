@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:appair/common/entities/setting.dart';
 import 'package:appair/screens//bayar/data/bayar_data.dart';
 import 'package:appair/common/service/setting_service.dart';
@@ -13,23 +15,32 @@ class BayarController extends GetxController with StateMixin<BayarData> {
   final settingService = Get.find<SettingService>();
   final transaksiService = Get.find<TransaksiService>();
 
-  final kuantitas = 0.obs;
+  final meteranAwal = 0.obs;
+  final meteranAkhir = 0.obs;
+  final meteranDigunakan = 0.obs;
   final totalHarga = 0.obs;
 
-  final jumlahKubikController = TextEditingController();
+  final meteranAkhirController = TextEditingController();
 
   final setting = Setting().obs;
 
   @override
   void onReady() {
-    jumlahKubikController.addListener(() {
-      kuantitas.value = int.tryParse(jumlahKubikController.text) ?? 0;
-      totalHarga.value = kuantitas.value *
-          (setting.value.price?.perKubik ?? 0);
+    meteranAkhirController.addListener(() {
+      meteranAkhir.value = int.tryParse(meteranAkhirController.text) ?? 0;
+      meteranDigunakan.value = max(meteranAkhir.value - meteranAwal.value, 0);
+
+      var total = meteranDigunakan.value * (setting.value.price?.perKubik ?? 0);
+
+      totalHarga.value = max(total, 0);
     });
 
     settingService.settings().then((value) {
       setting.value = value;
+    });
+
+    transaksiService.transaksiLatest().then((value) {
+      meteranAwal.value = value.data?.meteranAkhir ?? 0;
     });
   }
 
@@ -91,16 +102,31 @@ class BayarController extends GetxController with StateMixin<BayarData> {
   }
 
   void submit() async {
-    if (state != null) {
-      var response = await Get.showOverlay(
+    if ((meteranAkhir.value.isBlank ?? true) || meteranAkhir.value == 0) {
+      Get.showSnackbar(const GetSnackBar(
+        message: "Meteran akhir tidak boleh kosong",
+        duration: Duration(seconds: 3),
+      ));
+      return;
+    }
+
+    if (state == null) {
+      Get.showSnackbar(const GetSnackBar(
+        message: "Bukti Pembayaran diperlukan",
+        duration: Duration(seconds: 3),
+      ));
+      return;
+    }
+
+    var response = await Get.showOverlay(
         asyncFunction: () async {
           var fileBytes =
               await state!.fileBytes.catchError((error) => throw error);
 
           if (fileBytes != null) {
             return await transaksiService
-                .bayar(
-                    fileBytes, kuantitas.value, state!.fileName ?? 'image.jpg')
+                .bayar(fileBytes, meteranAkhir.value,
+                    state!.fileName ?? 'image.jpg')
                 .catchError((error) => throw error);
           }
 
@@ -142,6 +168,5 @@ class BayarController extends GetxController with StateMixin<BayarData> {
           duration: Duration(seconds: 3),
         ));
       }
-    }
   }
 }

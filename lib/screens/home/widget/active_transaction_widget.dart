@@ -4,27 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:appair/common/util/number_util.dart';
 import 'package:appair/common/util/date_util.dart';
+import 'package:shimmer/shimmer.dart';
 
-class ActiveTransactionWidget extends GetView<HomeController> {
+class ActiveTransactionWidget extends GetView<HomeTransaksiController> {
   const ActiveTransactionWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ObxValue<Rx<TransaksiActiveResponse>>(
-      (data) {
-        return InkWell(
-          onTap: () async {
-            if (!(data.value.data?.status == "lunas" ||
-                data.value.data?.status == "lewati")) {
-              await Get.toNamed("/bayar");
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox.fromSize(
+        size: const Size.fromHeight(200),
+        child: controller.obx(
+          (data) {
+            return InkWell(
+              onTap: () async {
+                if (!(data?.data?.status == "lunas" ||
+                    data?.data?.status == "lewati")) {
+                  await Get.toNamed("/bayar");
 
-              controller.load();
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox.fromSize(
-              size: const Size.fromHeight(200),
+                  controller.load();
+                }
+              },
               child: Card(
                 color: Colors.white,
                 elevation: 10,
@@ -47,7 +48,7 @@ class ActiveTransactionWidget extends GetView<HomeController> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),
-                            backgroundColor: data.value.data?.status == "lunas"
+                            backgroundColor: data?.data?.status == "lunas"
                                 ? Colors.green
                                 : Colors.red,
                             labelStyle: const TextStyle(
@@ -55,7 +56,7 @@ class ActiveTransactionWidget extends GetView<HomeController> {
                               fontFamily: 'Ubuntu',
                             ),
                             label: Text(
-                              data.value.data?.statusText ?? "Belum Bayar",
+                              data?.data?.statusText ?? "Belum Bayar",
                             ),
                           ),
                         ],
@@ -70,14 +71,14 @@ class ActiveTransactionWidget extends GetView<HomeController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Total Harga: ${data.value.data?.totalHarga?.numberFormat ?? '-'}",
+                            "Total Harga: ${data?.data?.totalHarga?.numberFormat ?? '-'}",
                             style: const TextStyle(
                               fontSize: 12,
                               fontFamily: 'Ubuntu',
                             ),
                           ),
                           Text(
-                            data.value.data?.tanggalTempo
+                            data?.data?.tanggalTempo
                                     ?.toDateTime()
                                     .toDateFormat('MMMM') ??
                                 "-",
@@ -93,9 +94,9 @@ class ActiveTransactionWidget extends GetView<HomeController> {
                         height: 5,
                       ),
                       Visibility(
-                        visible: data.value.data?.totalHarga != null,
+                        visible: data?.data?.totalHarga != null,
                         child: Text(
-                          "Total Bayar: ${data.value.data?.totalBayar?.numberFormat ?? '-'}",
+                          "Total Bayar: ${data?.data?.totalBayar?.numberFormat ?? '-'}",
                           style: const TextStyle(
                             fontSize: 12,
                             fontFamily: 'Ubuntu',
@@ -104,7 +105,7 @@ class ActiveTransactionWidget extends GetView<HomeController> {
                       ),
                       const Spacer(),
                       Text(
-                        "Tanggal Tempo: ${data.value.data?.tanggalTempo?.toDateTime().toDateFormat('dd-MMMM-yyyy') ?? "-"}",
+                        "Tanggal Tempo: ${data?.data?.tanggalTempo?.toDateTime().toDateFormat('dd-MMMM-yyyy') ?? "-"}",
                         style: const TextStyle(
                           fontSize: 12,
                           fontFamily: 'Ubuntu',
@@ -114,7 +115,7 @@ class ActiveTransactionWidget extends GetView<HomeController> {
                         height: 5,
                       ),
                       Text(
-                        "Tanggal Bayar: ${data.value.data?.tanggalBayar?.toDateTime().toDateFormat('dd-MMMM-yyyy') ?? "-"}",
+                        "Tanggal Bayar: ${data?.data?.tanggalBayar?.toDateTime().toDateFormat('dd-MMMM-yyyy') ?? "-"}",
                         style: const TextStyle(
                           fontSize: 12,
                           fontFamily: 'Ubuntu',
@@ -124,11 +125,25 @@ class ActiveTransactionWidget extends GetView<HomeController> {
                   ),
                 ),
               ),
+            );
+          },
+          onEmpty: const Card(
+            child: Center(
+              child: Text("Data tidak ada"),
             ),
           ),
-        );
-      },
-      controller.transaksiActiveResponse,
+          onLoading: Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(),
+          ),
+          onError: (error) => Card(
+            child: Center(
+              child: Text("Data gagal dimuat : ${error.toString()}"),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

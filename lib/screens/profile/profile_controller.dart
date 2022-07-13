@@ -15,7 +15,7 @@ class ProfileController extends GetxController with StateMixin<ProfileData> {
 
   void load() {
     _transaksiService.history().then((value) {
-      if (value.isNotEmpty) {
+      if (value != null && value.isNotEmpty) {
         change(
           ProfileData(
             listTransaksiResponse: value,
