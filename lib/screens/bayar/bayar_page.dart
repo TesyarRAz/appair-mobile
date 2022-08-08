@@ -130,30 +130,26 @@ class BayarPage extends GetView<BayarController> {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               "Rekening",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: 'Ubuntu',
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
-                              "BCA : 08123912321",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'Ubuntu',
+                            ObxValue<Rx<Setting>>(
+                              (value) => Text(
+                                value.value.general?.mobileRekeningInfo ?? '',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'Ubuntu',
+                                ),
                               ),
-                            ),
-                            Text(
-                              "Mandiri : 1232193123",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'Ubuntu',
-                              ),
+                              controller.setting,
                             ),
                           ],
                         )

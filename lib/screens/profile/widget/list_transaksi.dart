@@ -99,7 +99,7 @@ class ListTransaksi extends GetView<ProfileController> {
           SizedBox(
             height: 10,
           ),
-          Text('Terjadi masalah saat meload data'),
+          Text('Tidak ada riwayat pembayaran'),
         ],
       ),
     );

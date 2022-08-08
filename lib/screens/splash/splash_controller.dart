@@ -56,22 +56,25 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
           Get.offAllNamed("/login");
         }
       });
-    }).catchError((error) {
-      Get.dialog(
-        barrierDismissible: false,
-        AlertDialog(
-          actions: [
-            TextButton(
-              child: const Text("Reload"),
-              onPressed: () {
-                Get.back();
-                _load();
-              },
-            ),
-          ],
-          content: const Text("Terjadi masalah"),
-        ),
-      );
+    })
+    .catchError((error) {
+      _authService.clearLoginToken();
+      Get.offAllNamed("/login");
+      // Get.dialog(
+      //   barrierDismissible: false,
+      //   AlertDialog(
+      //     actions: [
+      //       TextButton(
+      //         child: const Text("Reload"),
+      //         onPressed: () {
+      //           Get.back();
+      //           _load();
+      //         },
+      //       ),
+      //     ],
+      //     content: const Text("Terjadi masalah"),
+      //   ),
+      // );
     });
   }
 }

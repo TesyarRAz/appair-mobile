@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:appair/common/entities/setting.dart';
+import 'package:appair/common/entities/user.dart';
+import 'package:appair/common/service/user_service.dart';
 import 'package:appair/screens//bayar/data/bayar_data.dart';
 import 'package:appair/common/service/setting_service.dart';
 import 'package:appair/common/service/transaksi_service.dart';
 import 'package:appair/common/widgets/loading_widget.dart';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,9 +42,11 @@ class BayarController extends GetxController with StateMixin<BayarData> {
       setting.value = value;
     });
 
-    transaksiService.transaksiLatest().then((value) {
-      meteranAwal.value = value.data?.meteranAkhir ?? 0;
-    });
+    // transaksiService.transaksiLatest().then((value) {
+    //   meteranAwal.value = value.data?.meteranAkhir ?? 0;
+    // });
+
+    meteranAwal.value = Get.find<User>().customer?.lastMeter ?? 0;
   }
 
   void openBuktiBayar() async {
@@ -147,6 +152,9 @@ class BayarController extends GetxController with StateMixin<BayarData> {
           ),
         ),
       ).catchError((error) {
+        if (error is DioError) {
+          Get.log(error.response?.data?.toString() ?? '');
+        }
         debugPrint(error.toString());
         Get.showSnackbar(
           const GetSnackBar(

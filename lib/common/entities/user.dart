@@ -19,13 +19,6 @@ class User {
     email: json["email"],
     customer: Customer.fromJson(json["customer"]),
   );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "email": email,
-    "customer": customer?.toJson(),
-  };
 }
 
 class AuthToken {

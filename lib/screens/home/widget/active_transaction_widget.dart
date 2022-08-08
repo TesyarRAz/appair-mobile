@@ -93,32 +93,18 @@ class ActiveTransactionWidget extends GetView<HomeTransaksiController> {
                       const SizedBox(
                         height: 5,
                       ),
+                      const Spacer(),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       Visibility(
-                        visible: data?.data?.totalHarga != null,
+                        visible: data?.data != null,
                         child: Text(
-                          "Total Bayar: ${data?.data?.totalBayar?.numberFormat ?? '-'}",
+                          "Tanggal Bayar: ${data?.data?.tanggalBayar?.toDateTime().toDateFormat('dd MMMM yyyy') ?? "-"}",
                           style: const TextStyle(
                             fontSize: 12,
                             fontFamily: 'Ubuntu',
                           ),
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        "Tanggal Tempo: ${data?.data?.tanggalTempo?.toDateTime().toDateFormat('dd-MMMM-yyyy') ?? "-"}",
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontFamily: 'Ubuntu',
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "Tanggal Bayar: ${data?.data?.tanggalBayar?.toDateTime().toDateFormat('dd-MMMM-yyyy') ?? "-"}",
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontFamily: 'Ubuntu',
                         ),
                       ),
                     ],
@@ -127,9 +113,47 @@ class ActiveTransactionWidget extends GetView<HomeTransaksiController> {
               ),
             );
           },
-          onEmpty: const Card(
-            child: Center(
-              child: Text("Data tidak ada"),
+          onEmpty: Card(
+            color: Colors.white,
+            elevation: 10,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Text(
+                        "Tagihan",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontFamily: 'Ubuntu',
+                        ),
+                      ),
+                      const Spacer(),
+                      Chip(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        backgroundColor: Colors.red,
+                        labelStyle: const TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Ubuntu',
+                        ),
+                        label: Text(
+                          "Belum Bayar",
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    endIndent: 200,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
             ),
           ),
           onLoading: Shimmer.fromColors(
