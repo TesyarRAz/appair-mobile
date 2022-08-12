@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:appair/common/entities/info.dart';
 import 'package:appair/common/entities/pagination.dart';
+import 'package:appair/common/entities/user.dart';
 import 'package:appair/common/repository/info_repository.dart';
 import 'package:appair/common/repository/transaksi_repository.dart';
 import 'package:appair/screens//home/home_controller.dart';
@@ -13,10 +14,12 @@ import 'package:appair/common/widgets/loading_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:marquee/marquee.dart';
 
 class HomePage extends StatelessWidget {
   final _homeInfoController = Get.find<HomeInfoController>();
   final _homeTransaksiController = Get.find<HomeTransaksiController>();
+  final _user = Get.find<User>();
 
   HomePage({Key? key}) : super(key: key);
 
@@ -49,10 +52,8 @@ class HomePage extends StatelessWidget {
             ),
           ),
           RefreshIndicator(
-            onRefresh: () => Future.wait([
-              _homeInfoController.load(),
-              _homeTransaksiController.load()
-            ]),
+            onRefresh: () => Future.wait(
+                [_homeInfoController.load(), _homeTransaksiController.load()]),
             child: ScrollConfiguration(
               behavior: ScrollConfiguration.of(context).copyWith(
                 dragDevices: {
@@ -65,13 +66,64 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 50,
+                      height: 10,
                     ),
+                    if (_user.customer?.isAllLunas ?? true)
+                      Container()
+                    else
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          child: Container(
+                            color: Colors.red,
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              height: 20,
+                              child: Marquee(
+                                text: "Ada Pembayaran Yang Belum Terselesaikan",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Ubuntu",
+                                  color: Colors.white,
+                                ),
+                                scrollAxis: Axis.horizontal,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                blankSpace: MediaQuery.of(context).size.width,
+                                pauseAfterRound: const Duration(seconds: 5),
+                                accelerationDuration:
+                                    const Duration(seconds: 1),
+                                accelerationCurve: Curves.linear,
+                                decelerationDuration:
+                                    const Duration(milliseconds: 500),
+                                decelerationCurve: Curves.easeIn,
+                                showFadingOnlyWhenScrolling: true,
+                                startAfter: const Duration(seconds: 3),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     const ActiveTransactionWidget(),
                     const SizedBox(
                       height: 20,
                     ),
-                    _buildInfoList()
+                    _buildInfoList(),
+                    Container(
+                      color: Colors.blue,
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text(
+                            "Copyright © 2020 MBCorp",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontFamily: "Ubuntu",
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -96,6 +148,7 @@ class HomePage extends StatelessWidget {
                 "News & Info",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
+                  fontFamily: "Ubuntu",
                 ),
               ),
               Divider(

@@ -70,81 +70,120 @@ class ProfilePage extends GetView<ProfileController> {
               PointerDeviceKind.mouse,
             },
           ),
-          child: ListView(
-            children: [
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  SizedBox.fromSize(
-                    size: const Size.fromHeight(200),
-                    child: const DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 125,
-                    left: MediaQuery.of(context).size.width / 2 - 50,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
+          child: CustomScrollView(
+            slivers: [
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    ListView(
+                      shrinkWrap: true,
                       children: [
-                        const CircleAvatar(
-                          radius: 50,
-                          child: Icon(
-                            Icons.supervised_user_circle,
-                            size: 100,
-                          ),
+                        Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            SizedBox.fromSize(
+                              size: const Size.fromHeight(200),
+                              child: const DecoratedBox(
+                                decoration: BoxDecoration(
+                                  // color: Colors.blue,
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage("images/default-image.png"),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 125,
+                              left: MediaQuery.of(context).size.width / 2 - 50,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const CircleAvatar(
+                                    radius: 50,
+                                    child: Icon(
+                                      Icons.supervised_user_circle,
+                                      size: 100,
+                                    ),
+                                  ),
+                                  Text(
+                                    user.name ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: "Ubuntu",
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          user.name ?? '',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontFamily: "Ubuntu",
-                            fontWeight: FontWeight.bold,
-                          ),
+                        const SizedBox(height: 60),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: const [
+                                  Expanded(
+                                      child: Divider(
+                                    endIndent: 20,
+                                  )),
+                                  Text(
+                                    "Riwayat Pembayaran",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: "Ubuntu",
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Divider(
+                                      indent: 20,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: ListTransaksi(),
+                            ),
+                          ],
                         )
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              const SizedBox(height: 80),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: const [
-                        Expanded(
-                            child: Divider(
-                          endIndent: 20,
-                        )),
-                        Text(
-                          "Riwayat Pembayaran",
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 40,
+                    color: Colors.blue,
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text(
+                          "Copyright © 2020 MBCorp",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                             fontFamily: "Ubuntu",
                           ),
                         ),
-                        Expanded(
-                          child: Divider(
-                            indent: 20,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: ListTransaksi(),
-                  ),
-                ],
+                ),
               )
             ],
           ),

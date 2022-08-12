@@ -56,4 +56,6 @@ class Transaksi {
         return "";
     }
   }
+
+  int get jumlahPemakaian => (meteranAkhir ?? 0) - (meteranAwal ?? 0);
 }

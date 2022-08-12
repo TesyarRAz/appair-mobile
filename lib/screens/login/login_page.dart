@@ -119,6 +119,11 @@ class LoginPage extends GetView<LoginController> {
       var password = _txtPassword.text;
 
       controller.login(username, password);
+    } else {
+      Get.showSnackbar(const GetSnackBar(
+        message: "Inputan kurang",
+        duration: Duration(seconds: 2),
+      ));
     }
   }
 

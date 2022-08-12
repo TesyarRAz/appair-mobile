@@ -6,6 +6,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:appair/common/util/date_util.dart';
+import 'package:appair/common/util/number_util.dart';
 
 class ListTransaksi extends GetView<ProfileController> {
   const ListTransaksi({Key? key}) : super(key: key);
@@ -40,6 +41,7 @@ class ListTransaksi extends GetView<ProfileController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           transaksi.kode,
@@ -48,22 +50,128 @@ class ListTransaksi extends GetView<ProfileController> {
                             fontFamily: "Ubuntu",
                           ),
                         ),
-                        const Spacer(),
-                        Text(
-                          transaksi.tanggalBayar
-                                  ?.toDateTime()
-                                  .toDateFormat('dd-MMMM-yyyy') ??
-                              '-',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontFamily: "Ubuntu",
+                        Chip(
+                          backgroundColor: Colors.blue,
+                          label: Text(
+                            transaksi.tanggalTempo
+                                    ?.toDateTime()
+                                    .toDateFormat('MMMM yyyy') ??
+                                '-',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontFamily: "Ubuntu",
+                            ),
                           ),
-                        ),
+                        )
                       ],
                     ),
+                    const Divider(),
                     const SizedBox(
                       height: 20,
                     ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                               const Expanded(
+                                child: Text(
+                                  "Meteran Akhir",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "Ubuntu",
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  ": ${transaksi.meteranAkhir}",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "Ubuntu",
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Expanded(
+                                child: Text(
+                                  "Jumlah Pemakaian",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "Ubuntu",
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  ": ${transaksi.jumlahPemakaian}",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "Ubuntu",
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Expanded(
+                                child: Text(
+                                  "Jumlah Bayar",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "Ubuntu",
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  ": ${transaksi.totalBayar?.numberFormat ?? 0}",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "Ubuntu",
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Expanded(
+                                child: Text(
+                                  "Tanggal Bayar",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "Ubuntu",
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  ": ${transaksi.tanggalBayar?.toDateTime().toDateFormat('dd MMMM yyyy')}",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "Ubuntu",
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20,),
                     Row(
                       children: [
                         const Spacer(),

@@ -12,15 +12,20 @@ class GeneralSetting {
 
 class PriceSetting {
   int perKubik;
+  int abudemen;
 
   PriceSetting({
     required this.perKubik,
+    required this.abudemen,
   });
 
   factory PriceSetting.fromJson(Map<String, dynamic> json) => PriceSetting(
         perKubik: json['per_kubik'] is int
             ? json['per_kubik']
             : int.tryParse(json['per_kubik'] ?? '0') ?? 0,
+        abudemen: json['abudemen'] is int
+            ? json['abudemen']
+            : int.tryParse(json['abudemen'] ?? '0') ?? 0,
       );
 }
 

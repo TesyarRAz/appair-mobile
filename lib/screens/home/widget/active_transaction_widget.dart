@@ -98,7 +98,17 @@ class ActiveTransactionWidget extends GetView<HomeTransaksiController> {
                         height: 5,
                       ),
                       Visibility(
-                        visible: data?.data != null,
+                        visible: data?.data?.status == 'ditolak',
+                        child: Text(
+                          "Alasan Ditolak: ${data?.data?.keteranganDitolak ?? '-'}",
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontFamily: 'Ubuntu',
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: data?.data?.status == 'lunas',
                         child: Text(
                           "Tanggal Bayar: ${data?.data?.tanggalBayar?.toDateTime().toDateFormat('dd MMMM yyyy') ?? "-"}",
                           style: const TextStyle(
@@ -140,7 +150,7 @@ class ActiveTransactionWidget extends GetView<HomeTransaksiController> {
                           color: Colors.white,
                           fontFamily: 'Ubuntu',
                         ),
-                        label: Text(
+                        label: const Text(
                           "Belum Bayar",
                         ),
                       ),

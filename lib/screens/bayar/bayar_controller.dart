@@ -33,7 +33,7 @@ class BayarController extends GetxController with StateMixin<BayarData> {
       meteranAkhir.value = int.tryParse(meteranAkhirController.text) ?? 0;
       meteranDigunakan.value = max(meteranAkhir.value - meteranAwal.value, 0);
 
-      var total = meteranDigunakan.value * (setting.value.price?.perKubik ?? 0);
+      var total = (meteranDigunakan.value * (setting.value.price?.perKubik ?? 0)) + (setting.value.price?.abudemen ?? 0);
 
       totalHarga.value = max(total, 0);
     });

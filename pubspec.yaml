@@ -47,6 +47,7 @@ dependencies:
   dio: ^4.0.6
   dartz: ^0.10.1
   shimmer: ^2.0.0
+  marquee: ^2.2.3
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,7 @@ flutter:
   assets:
     - environment.json
     - images/empty-image.png
+    - images/default-image.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
