@@ -1,11 +1,14 @@
 class GeneralSetting {
+  String appName;
   String mobileRekeningInfo;
 
   GeneralSetting({
+    required this.appName,
     required this.mobileRekeningInfo,
   });
 
   factory GeneralSetting.fromJson(Map<String, dynamic> json) => GeneralSetting(
+        appName: json["app_name"],
         mobileRekeningInfo: json['mobile_rekening_info'],
       );
 }
@@ -29,13 +32,33 @@ class PriceSetting {
       );
 }
 
+class StyleSetting {
+  String? bgType;
+  String? bgColor;
+  String? bgImage;
+
+  StyleSetting({
+    required this.bgType,
+    required this.bgColor,
+    required this.bgImage,
+  });
+
+  factory StyleSetting.fromJson(Map<String, dynamic> json) => StyleSetting(
+        bgType: json['bg_type'],
+        bgColor: json['bg_color'],
+        bgImage: json['bg_image'],
+      );
+}
+
 class Setting {
   PriceSetting? price;
   GeneralSetting? general;
+  StyleSetting? style;
 
   Setting({
     this.price,
     this.general,
+    this.style,
   });
 
   factory Setting.fromJson(Map<String, dynamic> json) => Setting(
@@ -44,5 +67,7 @@ class Setting {
         general: json["general"] == null
             ? null
             : GeneralSetting.fromJson(json["general"]),
+        style:
+            json["style"] == null ? null : StyleSetting.fromJson(json["style"]),
       );
 }

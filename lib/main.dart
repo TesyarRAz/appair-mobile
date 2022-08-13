@@ -11,6 +11,8 @@ import 'package:appair/screens//splash/splash_binding.dart';
 import 'package:appair/screens//splash/splash_page.dart';
 import 'package:appair/screens/setting/change_password_binding.dart';
 import 'package:appair/screens/setting/change_password_page.dart';
+import 'package:appair/screens/webview/webview_binding.dart';
+import 'package:appair/screens/webview/webview_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,4 +1,6 @@
+import 'package:appair/common/entities/setting.dart';
 import 'package:appair/common/service/auth_service.dart';
+import 'package:appair/common/service/setting_service.dart';
 import 'package:appair/common/service/user_service.dart';
 import 'package:appair/common/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,18 @@ import 'package:get/get.dart';
 class LoginController extends GetxController {
   final _authService = Get.find<AuthService>();
   final _userService = Get.find<UserService>();
+  final _settingService = Get.find<SettingService>();
+
+  final setting = Setting().obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    _settingService.settings().then((value) {
+      setting.value = value;
+    });
+  }
 
   void login(String username, String password) async {
     var loginResponse = await Get.showOverlay(

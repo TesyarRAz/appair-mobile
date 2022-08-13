@@ -136,7 +136,7 @@ class ListTransaksi extends GetView<ProfileController> {
                               ),
                               Expanded(
                                 child: Text(
-                                  ": ${transaksi.totalBayar?.numberFormat ?? 0}",
+                                  ": ${transaksi.totalBayar?.rupiahFormat ?? 0}",
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontFamily: "Ubuntu",

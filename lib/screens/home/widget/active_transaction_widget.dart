@@ -1,3 +1,4 @@
+import 'package:appair/common/entities/user.dart';
 import 'package:appair/screens//home/home_controller.dart';
 import 'package:appair/common/service/transaksi_service.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,9 @@ import 'package:appair/common/util/date_util.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ActiveTransactionWidget extends GetView<HomeTransaksiController> {
-  const ActiveTransactionWidget({Key? key}) : super(key: key);
+  final _user = Get.find<User>();
+
+  ActiveTransactionWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +73,23 @@ class ActiveTransactionWidget extends GetView<HomeTransaksiController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          if (data?.data?.totalHarga != null && data!.data!.totalHarga! > 0)
                           Text(
-                            "Total Harga: ${data?.data?.totalHarga?.numberFormat ?? '-'}",
+                            "Total Harga: ${data.data?.totalHarga?.rupiahFormat ?? '-'}",
                             style: const TextStyle(
                               fontSize: 12,
                               fontFamily: 'Ubuntu',
                             ),
-                          ),
+                          )
+                          else
+                          Text(
+                            "Meteran Akhir : ${_user.customer?.lastMeter.numberFormat ?? '-'}",
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'Ubuntu',
+                            ),
+                          )
+                          ,
                           Text(
                             data?.data?.tanggalTempo
                                     ?.toDateTime()

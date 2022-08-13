@@ -1,10 +1,24 @@
+import 'package:appair/common/entities/setting.dart';
+import 'package:appair/common/service/setting_service.dart';
 import 'package:appair/common/service/user_service.dart';
 import 'package:appair/common/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ChangePasswordController extends GetxController {
-  final UserService userService = Get.find<UserService>();
+  final settingService = Get.find<SettingService>();
+  final userService = Get.find<UserService>();
+
+  final setting = Setting().obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    settingService.settings().then((value) {
+      setting.value = value;
+    });
+  }
 
   void changePassword(
     String oldPassword,

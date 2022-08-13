@@ -1,9 +1,12 @@
+import 'package:appair/common/entities/setting.dart';
 import 'package:appair/common/entities/user.dart';
+import 'package:appair/common/widgets/background_widget.dart';
 import 'package:appair/screens//profile/profile_controller.dart';
 import 'package:appair/screens//profile/widget/list_transaksi.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:appair/common/util/color_util.dart';
 
 class ProfilePage extends GetView<ProfileController> {
   final user = Get.find<User>();
@@ -14,7 +17,10 @@ class ProfilePage extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("App Air"),
+        title: ObxValue<Rx<Setting>>(
+          (val) => Text(val.value.general?.appName ?? 'App Air'),
+          controller.setting,
+        ),
         leading: const BackButton(),
         actions: [
           PopupMenuButton(
@@ -83,15 +89,11 @@ class ProfilePage extends GetView<ProfileController> {
                           children: [
                             SizedBox.fromSize(
                               size: const Size.fromHeight(200),
-                              child: const DecoratedBox(
-                                decoration: BoxDecoration(
-                                  // color: Colors.blue,
-                                  image: DecorationImage(
-                                    image:
-                                        AssetImage("images/default-image.png"),
-                                    fit: BoxFit.cover,
-                                  ),
+                              child: ObxValue<Rx<Setting>>(
+                                (val) => BackgroundWidget(
+                                  setting: val.value,
                                 ),
+                                controller.setting,
                               ),
                             ),
                             Positioned(

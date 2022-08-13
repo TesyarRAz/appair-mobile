@@ -1,19 +1,23 @@
+import 'package:appair/screens/webview/webview_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class WebViewPage extends StatelessWidget {
+class WebViewPage extends GetView<WebViewController> {
   final String url;
 
-  const WebViewPage({required this.url, });
+  const WebViewPage({
+    required this.url,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("App Air"),
-        leading: BackButton(),
+        title: const Text("App Air"),
+        leading: const BackButton(),
       ),
       body: InAppWebView(
         initialUrlRequest: URLRequest(url: Uri.tryParse(url)),

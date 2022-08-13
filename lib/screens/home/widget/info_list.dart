@@ -1,6 +1,7 @@
 import 'package:appair/common/entities/info.dart';
 import 'package:appair/screens//home/home_controller.dart';
-import 'package:appair/screens//webview_page.dart';
+import 'package:appair/screens/webview/webview_binding.dart';
+import 'package:appair/screens/webview/webview_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -132,7 +133,7 @@ class InfoList extends GetView<HomeInfoController> {
     if (info.url == null) return;
 
     if (platform.isMobile) {
-      Get.to(WebViewPage(url: info.url!), transition: Transition.rightToLeft);
+      Get.to(WebViewPage(url: info.url!), transition: Transition.rightToLeft, binding: WebViewBinding(),);
     } else {
       Get.dialog(AlertDialog(
         content: const Text('Ini akan membuka browser secara langsung'),

@@ -1,3 +1,5 @@
+import 'package:appair/common/entities/setting.dart';
+import 'package:appair/common/widgets/background_widget.dart';
 import 'package:appair/screens//login/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,20 +31,29 @@ class LoginPage extends GetView<LoginController> {
             top: 80,
             left: MediaQuery.of(context).size.width / 2 - 50,
             child: Column(
-              children: const [
-                Icon(
-                  Icons.water,
-                  size: 100,
-                  color: Colors.white,
-                ),
-                Text(
-                  "AppAir",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 32,
-                    fontFamily: 'Ubuntu',
+              children: [
+                // Icon(
+                //   Icons.water,
+                //   size: 100,
+                //   color: Colors.white,
+                // ),
+                ObxValue<Rx<Setting>>(
+                  (val) => BackgroundWidget(
+                    setting: val.value,
                   ),
+                  controller.setting,
                 ),
+                ObxValue<Rx<Setting>>(
+                  (val) => Text(
+                    val.value.general?.appName ?? 'App Air',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontFamily: 'Ubuntu',
+                    ),
+                  ),
+                  controller.setting,
+                )
               ],
             ),
           ),
@@ -77,13 +88,28 @@ class LoginPage extends GetView<LoginController> {
                           const SizedBox(
                             height: 10,
                           ),
-                          TextFormField(
-                            controller: _txtPassword,
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Password',
-                            ),
+                          ObxValue<RxBool>(
+                            (hide) {
+                              return TextField(
+                                controller: _txtPassword,
+                                obscureText: hide.value,
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: "Password Baru",
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      hide.value
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                    onPressed: () {
+                                      hide.value = !hide.value;
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                            true.obs,
                           ),
                           const SizedBox(
                             height: 30,
@@ -126,5 +152,4 @@ class LoginPage extends GetView<LoginController> {
       ));
     }
   }
-
 }

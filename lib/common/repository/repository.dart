@@ -50,6 +50,19 @@ class AuthorizedRepository extends Repository {
   @override
   Dio dio() {
     return super.dio()
-    ..options.headers['Authorization'] = "Bearer ${Get.find<AuthToken>().token}";
+      ..options.headers['Authorization'] =
+          "Bearer ${Get.find<AuthToken>().token}";
+  }
+}
+
+mixin CachedRepository on Repository {
+  final _cached = {};
+
+  Future<S> remember<S>(String key, Future<S> Function() create) async {
+    if (!_cached.containsKey(key)) {
+      _cached[key] = await create();
+    }
+
+    return _cached[key];
   }
 }

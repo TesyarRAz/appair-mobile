@@ -1,8 +1,25 @@
 import 'package:appair/common/entities/info.dart';
 import 'package:appair/common/entities/pagination.dart';
+import 'package:appair/common/entities/setting.dart';
 import 'package:appair/common/service/info_service.dart';
+import 'package:appair/common/service/setting_service.dart';
 import 'package:appair/common/service/transaksi_service.dart';
 import 'package:get/get.dart';
+
+class HomeController extends GetxController {
+  final settingService = Get.find<SettingService>();
+
+  final setting = Setting().obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    settingService.settings().then((value) {
+      setting.value = value;
+    });
+  }
+}
 
 class HomeInfoController extends GetxController with StateMixin<Pagination<Info>> {
   final _infoService = Get.find<InfoService>();

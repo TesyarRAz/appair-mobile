@@ -1,3 +1,4 @@
+import 'package:appair/common/entities/setting.dart';
 import 'package:appair/screens/setting/change_password_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,10 @@ class ChangePasswordPage extends GetView<ChangePasswordController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("App Air"),
+        title: ObxValue<Rx<Setting>>(
+          (val) => Text(val.value.general?.appName ?? 'App Air'),
+          controller.setting,
+        ),
         leading: const BackButton(),
       ),
       body: Column(
