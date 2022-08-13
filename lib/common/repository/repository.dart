@@ -13,6 +13,7 @@ class Repository extends GetConnect {
 
   @override
   void onInit() {
+    httpClient.timeout = const Duration(minutes: 10);
     httpClient.addRequestModifier((Request request) async {
       request.headers['Accept'] = 'application/json';
 
@@ -60,7 +61,7 @@ mixin CachedRepository on Repository {
 
   Future<S> remember<S>(String key, Future<S> Function() create) async {
     if (!_cached.containsKey(key)) {
-      _cached[key] = await create();
+      _cached.assign(key, await create());
     }
 
     return _cached[key];

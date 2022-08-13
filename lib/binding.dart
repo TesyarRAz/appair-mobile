@@ -30,37 +30,38 @@ class AppBinding extends Bindings {
     // Get.locale = Get.deviceLocale ?? const Locale('id', 'ID');
     
     Get.put(await PackageInfo.fromPlatform());
+    Get.put(env['baseUrl'], tag: 'baseUrl');
 
     var preferences = Get.put(await SharedPreferences.getInstance());
 
     // Initialize Repository First
     var transaksiRepository = Get.put(
       TransaksiRepository(
-        baseUrl: env['baseUrl'],
+        baseUrl: env['apiUrl'],
       ),
     );
 
     var infoRepository = Get.put(
       InfoRepository(
-        baseUrl: env['baseUrl'],
+        baseUrl: env['apiUrl'],
       ),
     );
 
     var userRepository = Get.put(
       UserRepository(
-        baseUrl: env['baseUrl'],
+        baseUrl: env['apiUrl'],
       ),
     );
 
     var authRepository = Get.put(
       AuthRepository(
-        baseUrl: env['baseUrl'],
+        baseUrl: env['apiUrl'],
       ),
     );
 
     var settingRepository = Get.put(
       SettingRepository(
-        baseUrl: env['baseUrl'],
+        baseUrl: env['apiUrl'],
       ),
     );
 

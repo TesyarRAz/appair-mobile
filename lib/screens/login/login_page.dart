@@ -21,17 +21,19 @@ class LoginPage extends GetView<LoginController> {
         children: [
           SizedBox.fromSize(
             size: Size.fromHeight(MediaQuery.of(context).size.height / 2.3),
-            child: const DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.blue,
+            child: ObxValue<Rx<Setting>>(
+              (val) => BackgroundWidget(
+                setting: val.value,
               ),
+              controller.setting,
             ),
           ),
-          Positioned(
-            top: 80,
-            left: MediaQuery.of(context).size.width / 2 - 50,
+          Center(
             child: Column(
               children: [
+                const SizedBox(
+                  height: 150,
+                ),
                 // Icon(
                 //   Icons.water,
                 //   size: 100,

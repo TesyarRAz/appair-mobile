@@ -44,8 +44,6 @@ class ProfileController extends GetxController with StateMixin<ProfileData> {
   Future<bool> logout() async {
     var result = await _authService.logout().catchError((error) => throw error);
 
-    Get.deleteAll(force: true);
-
     Get.offAndToNamed("/login");
 
     return result;

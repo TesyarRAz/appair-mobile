@@ -1,12 +1,14 @@
-
 import 'package:appair/common/service/auth_service.dart';
+import 'package:appair/common/service/setting_service.dart';
 import 'package:appair/common/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SplashController extends GetxController with GetSingleTickerProviderStateMixin {
+class SplashController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   final _userService = Get.find<UserService>();
   final _authService = Get.find<AuthService>();
+  final _settingService = Get.find<SettingService>();
 
   final loadMinimal = const Duration(seconds: 5);
 
@@ -18,9 +20,11 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
     super.onInit();
 
     animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1))..repeat(reverse: true);
+        AnimationController(vsync: this, duration: const Duration(seconds: 1))
+          ..repeat(reverse: true);
 
-    iconAnimation = Tween<double>(begin: 0.5, end: 1).animate(animationController);
+    iconAnimation =
+        Tween<double>(begin: 0.5, end: 1).animate(animationController);
   }
 
   @override
@@ -45,10 +49,13 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
 
   void _load() {
     var time = Stopwatch()..start();
-    
-    _userService.user().then((value) {
+
+    Future.wait([
+      _userService.user(),
+      _settingService.settings(),
+    ]).then((value) {
       Future.delayed(loadMinimal - time.elapsed, () {
-        if (value != null) {
+        if (value.isNotEmpty) {
           Get.offAllNamed("/home");
         } else {
           _authService.clearLoginToken();

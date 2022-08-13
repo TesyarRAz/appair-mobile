@@ -17,6 +17,9 @@ class HomeController extends GetxController {
 
     settingService.settings().then((value) {
       setting.value = value;
+
+
+    Get.log("Background Type : ${setting.value.style?.bgType}");
     });
   }
 }
