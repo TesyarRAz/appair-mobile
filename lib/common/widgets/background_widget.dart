@@ -35,7 +35,8 @@ class BackgroundWidget extends StatelessWidget {
             // color: Colors.blue,
             image: DecorationImage(
               image: AssetImage("images/default-image.png"),
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
+              repeat: ImageRepeat.noRepeat,
             ),
           ),
         ),

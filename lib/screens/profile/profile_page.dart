@@ -81,84 +81,79 @@ class ProfilePage extends GetView<ProfileController> {
               SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    ListView(
-                      shrinkWrap: true,
+                    Stack(
+                      clipBehavior: Clip.none,
                       children: [
-                        Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            SizedBox.fromSize(
-                              size: const Size.fromHeight(200),
-                              child: ObxValue<Rx<Setting>>(
-                                (val) => BackgroundWidget(
-                                  setting: val.value,
-                                ),
-                                controller.setting,
-                              ),
+                        SizedBox.fromSize(
+                          size: const Size.fromHeight(200),
+                          child: ObxValue<Rx<Setting>>(
+                            (val) => BackgroundWidget(
+                              setting: val.value,
                             ),
-                            Positioned(
-                              top: 125,
-                              left: MediaQuery.of(context).size.width / 2 - 50,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const CircleAvatar(
-                                    radius: 50,
-                                    child: Icon(
-                                      Icons.supervised_user_circle,
-                                      size: 100,
-                                    ),
-                                  ),
-                                  Text(
-                                    user.name ?? '',
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: "Ubuntu",
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
+                            controller.setting,
+                          ),
                         ),
-                        const SizedBox(height: 60),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: const [
-                                  Expanded(
-                                      child: Divider(
-                                    endIndent: 20,
-                                  )),
-                                  Text(
-                                    "Riwayat Pembayaran",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: "Ubuntu",
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Divider(
-                                      indent: 20,
-                                    ),
-                                  ),
-                                ],
+                        Positioned(
+                          top: 125,
+                          left: MediaQuery.of(context).size.width / 2 - 50,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const CircleAvatar(
+                                radius: 50,
+                                child: Icon(
+                                  Icons.supervised_user_circle,
+                                  size: 100,
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: ListTransaksi(),
-                            ),
-                          ],
-                        )
+                              Text(
+                                user.name ?? '',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: "Ubuntu",
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 60),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: const [
+                              Expanded(
+                                  child: Divider(
+                                endIndent: 20,
+                              )),
+                              Text(
+                                "Riwayat Pembayaran",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: "Ubuntu",
+                                ),
+                              ),
+                              Expanded(
+                                child: Divider(
+                                  indent: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ListTransaksi(),
+                        ),
                       ],
                     ),
                   ],

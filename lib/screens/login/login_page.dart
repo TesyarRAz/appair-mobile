@@ -40,22 +40,29 @@ class LoginPage extends GetView<LoginController> {
                 //   color: Colors.white,
                 // ),
                 ObxValue<Rx<Setting>>(
-                  (val) => BackgroundWidget(
-                    setting: val.value,
-                  ),
+                  (val) {
+                    var child = Text(
+                      val.value.general?.appName ?? 'App Air',
+                      style: TextStyle(
+                        color: val.value.general?.appName != null
+                            ? Colors.black
+                            : Colors.white,
+                        fontSize: 32,
+                        fontFamily: 'Ubuntu',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+
+                    return val.value.general?.appName != null
+                        ? Container(
+                            color: Colors.white,
+                            padding: const EdgeInsets.all(8),
+                            child: child,
+                          )
+                        : child;
+                  },
                   controller.setting,
                 ),
-                ObxValue<Rx<Setting>>(
-                  (val) => Text(
-                    val.value.general?.appName ?? 'App Air',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontFamily: 'Ubuntu',
-                    ),
-                  ),
-                  controller.setting,
-                )
               ],
             ),
           ),

@@ -17,22 +17,19 @@ class AuthService extends GetxService {
   Future<LoginResponse> login(String username, String password) async {
     var data = await repository.login(username, password);
 
-    var dataSuccess = data.getOrElse(() => {});
-    var dataFail = data.getOrElse(() => {});
-
-    if (dataSuccess?.containsKey("token") ?? false) {
-      setLoginToken(dataSuccess!["token"]);
+    return data.fold((l) {
+      return LoginResponse(
+        isLoggedIn: false,
+        dataFail: l,
+      );
+    }, (r) {
+      setLoginToken(r!["token"]);
 
       return LoginResponse(
         isLoggedIn: true,
-        authToken: dataSuccess['token'],
+        authToken: r['token'],
       );
-    }
-
-    return LoginResponse(
-      isLoggedIn: false,
-      dataFail: dataFail,
-    );
+    });
   }
 
   Future<bool> logout() async {
@@ -42,7 +39,7 @@ class AuthService extends GetxService {
     return true;
   }
 
-  void registerExistsToken({ bool register = false}) {
+  void registerExistsToken({bool register = false}) {
     if (hasLoginToken()) {
       setLoginToken(getLoginToken()!, register: register);
     }

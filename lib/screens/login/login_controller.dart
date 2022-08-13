@@ -24,8 +24,7 @@ class LoginController extends GetxController {
 
   void login(String username, String password) async {
     var loginResponse = await Get.showOverlay(
-      asyncFunction: () =>
-          _authService.login(username, password).catchError((error) => throw error),
+      asyncFunction: () => _authService.login(username, password),
       loadingWidget: Center(
         child: Container(
           height: 100,
@@ -40,9 +39,8 @@ class LoginController extends GetxController {
           ),
         ),
       ),
-    )
-    .catchError((error) {
-      debugPrint(error.toString());
+    ).catchError((error) {
+      Get.log("LoginError : ${error.toString()}");
 
       Get.back();
       Get.showSnackbar(const GetSnackBar(
@@ -56,10 +54,13 @@ class LoginController extends GetxController {
 
       Get.offAllNamed('/home');
     } else {
-      debugPrint(loginResponse.dataFail.toString());
-      Get.showSnackbar(const GetSnackBar(
-        message: "Username atau password salah",
-        duration: Duration(seconds: 2),
+      Get.log("Login Data Fail : ${loginResponse.dataFail.toString()}");
+
+      Get.showSnackbar(GetSnackBar(
+        message: (loginResponse.dataFail?.containsKey("message") ?? false)
+            ? loginResponse.dataFail!['message']
+            : "Username atau password salah",
+        duration: const Duration(seconds: 2),
       ));
     }
   }
