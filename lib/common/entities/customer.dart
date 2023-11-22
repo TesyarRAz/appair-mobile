@@ -1,14 +1,14 @@
 class Customer {
   int id;
   bool active;
-  int rt;
+  int? rt;
   int lastMeter;
   bool isAllLunas;
 
   Customer({
     required this.id,
     required this.active,
-    required this.rt,
+    this.rt,
     required this.lastMeter,
     required this.isAllLunas,
   });

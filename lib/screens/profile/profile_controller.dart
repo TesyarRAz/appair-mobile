@@ -43,7 +43,7 @@ class ProfileController extends GetxController with StateMixin<ProfileData> {
 
   Future<bool> logout() async {
     var result = await _authService.logout().catchError((error) => throw error);
-
+    
     Get.offAndToNamed("/login");
 
     return result;

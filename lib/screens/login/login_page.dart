@@ -44,7 +44,7 @@ class LoginPage extends GetView<LoginController> {
                     var child = Text(
                       val.value.general?.appName ?? 'App Air',
                       style: TextStyle(
-                        color: val.value.general?.appName != null
+                        color: val.value.style?.bgType == "image"
                             ? Colors.black
                             : Colors.white,
                         fontSize: 32,
@@ -53,7 +53,7 @@ class LoginPage extends GetView<LoginController> {
                       ),
                     );
 
-                    return val.value.general?.appName != null
+                    return val.value.style?.bgType == "image"
                         ? Container(
                             color: Colors.white,
                             padding: const EdgeInsets.all(8),

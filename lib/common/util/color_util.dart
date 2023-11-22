@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 extension ColorUtil on String {
-  toColor() {
+  Color? toColor() {
     var hexColor = replaceAll("#", "");
     if (hexColor.length == 6) {
       hexColor = "FF$hexColor";

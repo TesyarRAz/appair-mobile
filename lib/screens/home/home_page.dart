@@ -66,7 +66,7 @@ class HomePage extends GetView<HomeController> {
                     delegate: SliverChildListDelegate(
                       [
                         const SizedBox(
-                          height: 100,
+                          height: 10,
                         ),
                         if (_user.customer?.isAllLunas ?? true)
                           Container()
@@ -106,7 +106,7 @@ class HomePage extends GetView<HomeController> {
                               ),
                             ),
                           ),
-                        ActiveTransactionWidget(),
+                        ActiveTransactionWidget(user: _user),
                         const SizedBox(
                           height: 20,
                         ),

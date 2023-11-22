@@ -8,9 +8,9 @@ import 'package:appair/common/util/date_util.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ActiveTransactionWidget extends GetView<HomeTransaksiController> {
-  final _user = Get.find<User>();
+  User user;
 
-  ActiveTransactionWidget({Key? key}) : super(key: key);
+  ActiveTransactionWidget({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class ActiveTransactionWidget extends GetView<HomeTransaksiController> {
                           )
                           else
                           Text(
-                            "Meteran Akhir : ${_user.customer?.lastMeter.numberFormat ?? '-'}",
+                            "Meteran Akhir : ${user.customer?.lastMeter.numberFormat ?? '-'}",
                             style: const TextStyle(
                               fontSize: 12,
                               fontFamily: 'Ubuntu',

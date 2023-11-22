@@ -17,7 +17,7 @@ class BackgroundWidget extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: setting.style?.bgColor != null
-            ? Color(setting.style!.bgColor!.toColor())
+            ? setting.style!.bgColor!.toColor()
             : Colors.blue,
       ),
     );
